@@ -1,0 +1,159 @@
+
+                <li id="page_Calendar">
+	           	<div class="box">
+              <div class="wrapper">
+               <div class="col1">
+                   <h3><a href="#none">Tick Calendar</a></h3>
+    <!------------------------------links div-------------------------------->
+                
+                        <div id="links" style="display: none;">
+                        {% if super_user %} 
+                         || <a href="#!/page_Calendar" onClick="return drawDiv('create_event');">Create an event.</a> ||
+                       {% endif %}
+                        </div>                       
+                        
+                        <div id="links_2" style="display: none;"> 
+                         {% if super_user %} 
+                          || <a href="#!/page_Calendar" onClick="return drawDiv('edit_event');">Edit Event</a>         
+                          || <a href="#!/page_Calendar" onClick="return drawDiv('delete_event');">Delete Event</a> ||
+                         {% endif %}
+                        </div>
+                 
+  <!------------------------------links div end-------------------------------->
+
+              <form name="frmCalendarSample" id="frmCalendarSample">
+                <input type="hidden" name="calSelectedDate" value="">
+
+                 <table border="1">
+                <tr>
+                <td>
+<select name="tbSelMonth" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+</select>
+
+<select name="tbSelYear" onchange='fUpdateCal(frmCalendarSample.tbSelYear.value, frmCalendarSample.tbSelMonth.value)'>
+               <option value="2013">2013</option>
+               <option value="2014">2014</option>
+               <option value="2015">2015</option>
+               <option value="2016">2016</option>
+</select>
+ </td>
+ </tr>
+ <tr>
+ <td id="day">
+ <script language="JavaScript">
+  var dCurDate = new Date();
+  fDrawCal(dCurDate.getFullYear(), dCurDate.getMonth()+1, 50, 40, "16px", "italics", 1);
+  
+</script>
+ </td>
+ </tr>
+ </table>
+
+ </form>  
+   <!------------------------------response page--------------------------------->
+           <div id="Response_Calendar" style="display: none;"></div>
+   <!------------------------------response page end--------------------------------->
+       </div>
+
+                  <div class="col2 pad_left1" id="calendar" style="display: none;">
+     <!------------------------------search results page--------------------------------->
+                  <div  style="display:block;overflow:hidden;width:245px;background:#f2f2f2;">
+                    <!------------------------------delete event div-------------------------------->
+               <div id="delete_event" style="display: none;">
+             {% if super_user %}
+                <form name="event_deleteForm" id="event_deleteForm">
+ <input id="id_event_title" type="text" name="event_title" placeholder="type the event title" maxlength="15" />
+<img src="/static/admin/img/icon_deletelink.gif" onClick="return deleteform()" alt="Delete" height="15px" width="15px" />
+                 </form>
+            {% endif %}
+               </div>
+  <!------------------------------delete event div-------------------------------->
+
+            <div id="searchResult" style="display:none;overflow:scroll;width:260px;height:320px;overflow-x:hidden">
+            </div>
+                     </div>
+  <!------------------------------search result page end--------------------------------->
+ 
+  <!------------------------------create event div-------------------------------->
+               <div id="create_event"  style="display: none;">
+
+                       <h3><a href="#!/page_Calendar">Create Event</a></h3>
+                       <form name="event_createForm" id="event_createForm">
+                       <input type="hidden" name="day_selected" id="day_selected" value="">
+                            {% for field in calendar %}
+                              {{ field.label }}<br />
+                              {{ field }}
+                            {% endfor %} 
+                              
+                               Event Type<br />
+                                 <select name="event_type" onchange="return display(this, 'public')">
+                                    <option>Please select:</option>
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                </select><br />
+                                
+                                <div id="public" style="display: none;">
+                                      Phone Numbers<br />
+                  <input class="form-control" id="id_numbers" placeholder="separate with a comma" type="text" name="numbers"/>
+                                </div>
+ 
+                          <div class="btns">
+                            <input type="button" class="button1" value="Create" onClick="return CreateEvent()">
+                            <input type="reset" class="button1" value="Clear">
+                          </div>
+                        </form>
+
+               </div>
+  <!------------------------------create event div end-------------------------------->
+                        
+  <!------------------------------edit event div-------------------------------->
+               <div id="edit_event" style="display: none;">
+
+                       <h3><a href="#!/page_Calendar">Edit Event</a></h3>
+                       <form name="event_editForm" id="event_editForm">
+                            {% for field in calendar %}
+                              {{ field.label }}<br />
+                              {{ field }}
+                            {% endfor %} 
+                              
+                               Event Type<br />
+                                 <select name="event_type" onchange="return display(this, 'public')">
+                                    <option>Please select:</option>
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                 </select>
+                                
+                                <div id="public" style="display: none;">
+                                      Phone Numbers<br />
+                  <input class="search" id="id_numbers" placeholder="separate with a comma" type="text" name="numbers"/>
+                                </div>
+ 
+                          <div class="btns">
+                            <input type="button" class="button1" value="Edit" onClick="return editEvent()">
+                            <input type="reset" class="button1" value="Clear">
+                          </div>
+                        </form> 
+               
+               </div>
+  <!------------------------------edit event div end------------------------------->
+ 
+             </div> 
+            
+          </div>
+         </div>
+
+    	</li>
+
+

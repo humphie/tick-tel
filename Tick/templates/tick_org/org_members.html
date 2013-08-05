@@ -1,0 +1,104 @@
+
+     <!------------------staff result page -------------------------->
+                <li id="page_Members">
+	        	<div class="box">
+                  <div class="wrapper">
+                  <div class="col1">
+ 
+ <!-------------------------------------search form------------------------------------->
+      || <a href="#!/page_Members" onclick="return syncMembers('');">All Staff</a> ||
+         <a href="#!/page_Members" onclick="drawDiv('member_tick'); return staff_list();">Send a Tick</a> ||
+      {% if super_user %}      
+         <a href="#!/page_Members" onclick="return drawDiv('save_member');">Add Staff</a> ||
+         <a href="#!/page_Members" onclick="return drawDiv('delete_member');">Delete Member</a> ||                 
+      {% endif %}
+ <!-------------------------------------search form------------------------------------->                  
+
+
+ <!-------------------------------------search form------------------------------------->                  
+                    <form name="member_searchForm" id="member_searchForm">
+                       {% csrf_token %}
+<input id="mem_query" type="text" name="mem_query" maxlength="16" placeholder="type the name to search here" />
+<img src="/static/admin/img/icon_searchbox.png" onClick="return searchMembers();" alt="Search" height="23px" width="23px" />
+              </form>
+ <!------------------------------------ search form------------------------------------->                  
+
+                    
+ <!-------------------------------------div for synced members------------------------------------->                  
+ <div style="overflow:hidden;width:350px;background:#f2f2f2;">
+   <div  id="members"style="display:block;overflow:scroll;width:450px;height:350px;overflow-x:hidden">                
+   </div>
+ </div>  
+ <!-------------------------------------div for synced members------------------------------------->                  
+
+   <div id="membersPage_response"></div>
+</div>
+
+<div class="col2 pad_left1">
+ <!-------------------------------------div  save contact------------------------------------->                  
+              <div id="save_member" style="display:block;">
+                {% if super_user %}
+                    <h3><a href="#!/page_Members">Add a Staff</a></h3>	
+                     <form name="saveMember" id="saveMember">
+                       {% csrf_token %}
+                       {% for field in addMember %}
+                       <div class="error">{{ field.errors }}</div>
+                                              
+                       <div class="name">{{ field.label }}<br /></div>
+                                                 
+                       <div class="search">{{ field }}<br /></div>
+                                                  
+                      {% endfor %}
+                    <div class="btns">
+                     <input type="button" class="button1" value="Save" onClick="return SaveMember()">
+                     <input type="reset" class="button1" value="Clear">
+                    </div>
+                 </form>
+                {% endif %}
+            </div>
+     <!-------------------------------------div  save contact------------------------------------->                  
+
+
+             <!------------------delete form-------------------------->
+                            <div id="member_delete_form"  style="display:none;">
+                             {% if super_user %}
+                               	<h3><a href="#!/page_Members">Delete a Staff</a></h3>	
+                                  <form name="deleteMember" id="deleteMember">
+                                                 {% csrf_token %}
+                                                  {% for field in deleteMember %}
+                                                   <div class="error">{{ field.errors }}</div>
+                                                  
+                                                  <div class="name">{{ field.label }}<br /></div>
+                                                  
+                                                  <div class="search">{{ field }}<br /></div>
+                                                  
+                                                  {% endfor %}
+                                   <div class="btns">
+                                   <input type="button" class="button1" value="Save" onClick="return DeleteMember()">
+                                   </div>
+                               </form>
+                             {% endif %}
+                           </div>
+           <!------------------delete form-------------------------->
+                     <!------------------tick staff form-------------------------->
+                      <div id="member_tick" style="display:none;">
+                           <form name="staff_form" id="staff_form">
+                             <div class="name">Tick to send<br /></div>
+                             <div class="search">
+                                 <textarea id="staff_text" rows="10" cols="40" name="staff_text">
+                                 </textarea>
+                            </div>
+                           <div class="btns">
+                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+                           <input type="button" class="button1" value="Tick" onClick="return member_chat();">
+                          </div>                             
+                        </form>
+                      </div>
+           <!------------------tick staff form-------------------------->
+        </div>
+     </div>
+ </div>
+</li>
+       
+  <!------------------staff result page end-------------------------->
+

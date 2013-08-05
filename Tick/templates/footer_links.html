@@ -1,0 +1,27 @@
+<a href="#!/page_Contacts">Contact Us </a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#!/page_Services">Services </a> 
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#!/page_Sign-Up">Sign Up</a> 
+{% if user.is_authenticated %}
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/logout/">Sign Out </a> 
+ {% if user.username == 'tick' %}
+    
+     {% if name %}
+     {% else %}
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="#!/page_Credit">Credit</a>
+     {% endif %}
+
+  {% endif %}
+  
+{% else %}  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#!/page_Login">Login</a>
+  
+{% endif %}  
+<br />
+&copy; 2013 Tick Int&trade;.
+
+

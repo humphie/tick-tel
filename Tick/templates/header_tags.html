@@ -1,0 +1,93 @@
+<meta name="description" content="A new way to communicate and reach your friends and your loved ones, keep your schedule!!!" />
+<meta name="keywords" content="Africa free sms, send free sms Africa, Africa mobile free sms, free sms Africa, free Africa sms text, free sms messages, international free sms, free sms online, free sms Africa web, free sms Africa online, free sms web" />
+
+
+  <link rel="stylesheet" href="/static/css/reset.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/static/css/style.css" type="text/css" media="all">
+{% if user.is_authenticated %}
+  <script type="text/javascript" src="/static/js/organization_members.js"></script>
+  <script type="text/javascript" src="/static/js/profile.js" ></script>
+  <script type="text/javascript" src="/static/js/chat.js" ></script>
+  <script type="text/javascript" src="/static/js/calendar.js" ></script>
+  <script type="text/javascript" src="/static/js/phonebook.js" ></script>
+  <script type="text/javascript" src="/static/js/text_msg.js" ></script>
+  <script type="text/javascript" src="/static/js/forms.js" ></script>
+  <script type="text/javascript" src="/static/js/events_manager.js" ></script>
+<<<<<<< HEAD
+=======
+  <script type="text/javascript" src="/static/js/profile.js" ></script>
+>>>>>>> 1608540afd4f84257a291b19b723f77a19cbf953
+  <script type="text/javascript" src="/static/js/user_search.js" ></script>
+{% endif %}
+  <script type="text/javascript" src="/static/js/post-get.js" ></script>
+  <script type="text/javascript" src="/static/js/jquery-1.6.js" ></script>
+  <script type="text/javascript" src="/static/js/cufon-yui.js"></script>
+  <script type="text/javascript" src="/static/js/cufon-replace.js"></script>  
+  <script type="text/javascript" src="/static/js/Kozuka_Gothic_Pro_OpenType_400.font.js"></script>
+  <script type="text/javascript" src="/static/js/script.js"></script>
+  <script type="text/javascript" src="/static/js/content_switch.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.easing.1.3.js"></script>
+  <script type="text/javascript" src="/static/js/superfish.js"></script>
+  <script type="text/javascript" src="/static/js/jquery.color.js"></script>
+<script>
+/////////////////////////////////////////////////////////////////////////////////////////
+function startTime()
+{
+var today=new Date();
+var h=today.getHours();
+var m=today.getMinutes();
+var s=today.getSeconds();
+// add a zero in front of numbers<10
+m=checkTime(m);
+s=checkTime(s);
+document.getElementById('time').innerHTML=today;
+t=setTimeout(function(){startTime()},500);
+}
+
+   function checkTime(i) 
+    {
+    if (i<10)
+     {
+      i="0" + i;
+     }
+    return i;
+   }
+////////////////////////////////////////////////////////////////////////////////////////
+{% if user.is_authenticated %}
+
+//fetch the new ticks if thepage is idle
+idleTime = 0;
+$(document).ready(function () {
+    //Increment the idle time counter every minute.
+    var idleInterval = setInterval("timerIncrement()", 9000); // 9 seconds
+
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
+})
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    if (idleTime > 2) { // 1 minutes
+        clearAll("dashboard");
+        sync_ticks('un_read');
+    }
+}   
+
+{% endif %}
+////////////////////////////////////////////////////////////////////////////////////////   
+</script>
+
+  <!--[if lt IE 9]>
+  	<script type="text/javascript" src="js/html5.js"></script>
+    <link rel="stylesheet" href="css/ie.css" type="text/css" media="all">
+  <![endif]-->
+	<!--[if lt IE 8]>
+		<div style=' clear: both; text-align:center; position: relative;'>
+			<a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode"><img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." /></a>
+		</div>
+	<![endif]-->
+
