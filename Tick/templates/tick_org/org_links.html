@@ -1,12 +1,10 @@
 {% if user.is_authenticated %}
 
 <h1><a href="#close" id="logo">Tick</a></h1>
-{% if user.is_authenticated %}
     <span id="greeting">
       <a href="/logout/" onClick="return networkConnection()">Hi, {{user.username}}. Sign Out!</a>
     </span>
     <span id="time"></span>
-{% endif %}
 <nav class="menu">
  <ul id="menu">
   <li><a href="#!/page_Home">Home</a></li>

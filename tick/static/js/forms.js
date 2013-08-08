@@ -120,7 +120,7 @@ function drawDiv(div)
   //display the chat_send form
   document.getElementById("reply_form_div").style.display = "block";
   }
-  if (div =="change_acc")
+  if (div == "change_acc")
   {
    //clear the page
   clearAll("dashboard");
@@ -131,7 +131,7 @@ function drawDiv(div)
   //display the form
   document.getElementById("change_acc_form_div").style.display = "block";
   }
-  if (div =="edit_profile")
+  if (div == "edit_profile")
   {
    //clear the page
   clearAll("dashboard");
@@ -142,7 +142,7 @@ function drawDiv(div)
   //display the form
   document.getElementById("edit_acc_form_div").style.display = "block";
   }
-  if (div =="change_pword")
+  if (div == "change_pword")
   {
    //clear the page
   clearAll("dashboard");

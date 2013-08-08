@@ -1,4 +1,3 @@
-
                 <li id="page_Calendar">
 	           	<div class="box">
               <div class="wrapper">
@@ -74,7 +73,7 @@
                <div id="delete_event" style="display: none;">
              {% if super_user %}
                 <form name="event_deleteForm" id="event_deleteForm">
- <input id="id_event_title" type="text" name="event_title" placeholder="type the event title" maxlength="15" />
+ <input class="form-control" id="id_event_title" type="text" name="event_title" placeholder="type the event title" maxlength="15" />
 <img src="/static/admin/img/icon_deletelink.gif" onClick="return deleteform()" alt="Delete" height="15px" width="15px" />
                  </form>
             {% endif %}
@@ -137,7 +136,7 @@
                                 
                                 <div id="public" style="display: none;">
                                       Phone Numbers<br />
-                  <input class="search" id="id_numbers" placeholder="separate with a comma" type="text" name="numbers"/>
+                  <input class="form-control" id="id_numbers" placeholder="separate with a comma" type="text" name="numbers"/>
                                 </div>
  
                           <div class="btns">

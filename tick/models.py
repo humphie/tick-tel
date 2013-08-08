@@ -59,7 +59,7 @@ class memberAcount(models.Model):
     group      = models.CharField(max_length=10)
     acc_type   = models.CharField(max_length=12)
     short_desc = models.CharField(max_length=130, null=True)
-    thumbnail  = models.ImageField(upload_to='/static/users/', null=True)
+    thumbnail  = models.ImageField(upload_to='users/', null=True)
     def __unicode__(self):
         return self.username
 

@@ -15,7 +15,7 @@ function acc_change(acc_type)
     if (window.XMLHttpRequest)
       {
          xmlhttp=new XMLHttpRequest();
-               }
+      }
     else
       {
           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -58,68 +58,99 @@ function edit_acc()
   contact   = document.edit_acc_form.edit_contact.value
   short_desc = document.edit_acc_form.edit_desc.value
 
-  
   if (full_name != "" || contact != "" || short_desc != "")
   {
   
   //check if there is an internet connection
    if (window.navigator.onLine)
    {
-     //send the form
-     return true; 
+     return true;
    }
+   //no network connection
    else
-    {
-      //return the connect method
-      document.getElementById('chat_res').innerHTML= errorMsg;   
-      return false;
- 
-     }
- 
+   {
+    //return the connect method
+    document.getElementById('chat_res').innerHTML= errorMsg;   
+    return false;
+   }
   }
-  else
-  {
+   else
+   {
     //return the connect method
     document.getElementById('chat_res').innerHTML= emptyFields;   
     return false;
+   }
   
-  }
 }
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////function to change the password//////////////////
 function pword_change()
 {
-
   //get the fields
   password  = document.change_pword_form.change_password.value
   password1 = document.change_pword_form.change_password1.value
+  username  = document.change_pword_form.Username.value
 
-  if (password != "" || password1 != "" && password1 == password )
+ if (password == "" || password1 == "" )
+    {
+    //reset the form 
+    document.getElementById("change_pword_form").reset();
+    //return the connect method
+    document.getElementById('chat_res').innerHTML= "<em id='err'>Please enter the passwords.</em>";   
+    return false;
+
+   }
+  else if (password != password1){
+    //reset the form 
+    document.getElementById("change_pword_form").reset();
+    //return the connect method
+    document.getElementById('chat_res').innerHTML= "<em id='err'>The passwords dont match.</em>";   
+    return false;
+
+
+   }
+  else
   {
-  
   //check if there is an internet connection
    if (window.navigator.onLine)
    {
-     //send the form
-     return true; 
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {
+         xmlhttp=new XMLHttpRequest();
+               }
+    else
+      {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+         
+      }
+
+    xmlhttp.onreadystatechange=function()
+      {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+
+                //reset the form
+                document.getElementById('change_pword_form').reset();
+                //remove the all ticks
+                document.getElementById('all_ticks').style.display = 'block';
+                //return the connect method
+                document.getElementById('chat_res').innerHTML=xmlhttp.responseText;
+            }
+          
+      }
+        data = "?password="+password+ "&Username="+username
+        xmlhttp.open("GET",'/change_password/'+data,true);
+        xmlhttp.send();
+
    }
+   //no network connection
    else
     {
       //return the connect method
       document.getElementById('chat_res').innerHTML= errorMsg;   
       return false;
- 
      }
- 
-  }
-  else
-  {
-    //reset the form 
-    document.getElementById("change_pword_form").reset();
-    //return the connect method
-    document.getElementById('chat_res').innerHTML= "<em id='err'>Please re-enter the passwords.</em>";   
-    return false;
-  
   }
 
 }

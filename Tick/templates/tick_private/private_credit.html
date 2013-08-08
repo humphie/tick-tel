@@ -10,10 +10,8 @@
                               <form id="creditForm" name="creditForm">
                                                  {% csrf_token %}
                                                   {% for field in creditForm %}
-                                                  <div class="name">{{ field.label }}<br /></div>
-                                                  
-                                                  <div class="search">{{ field }}<br /></div>
-                                                  
+                                                    {{ field.label }}<br />
+                                                    {{ field }}
                                                   {% endfor %}
                                    <div class="btns">
                           <input type="button" class="button1" value="Credit" onClick="return creditFormValidator()">

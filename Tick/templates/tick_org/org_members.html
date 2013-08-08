@@ -18,7 +18,7 @@
  <!-------------------------------------search form------------------------------------->                  
                     <form name="member_searchForm" id="member_searchForm">
                        {% csrf_token %}
-<input id="mem_query" type="text" name="mem_query" maxlength="16" placeholder="type the name to search here" />
+<input id="mem_query" class="form-control" type="text" name="mem_query" maxlength="16" placeholder="type the name to search here" />
 <img src="/static/admin/img/icon_searchbox.png" onClick="return searchMembers();" alt="Search" height="23px" width="23px" />
               </form>
  <!------------------------------------ search form------------------------------------->                  
@@ -42,11 +42,8 @@
                      <form name="saveMember" id="saveMember">
                        {% csrf_token %}
                        {% for field in addMember %}
-                       <div class="error">{{ field.errors }}</div>
-                                              
-                       <div class="name">{{ field.label }}<br /></div>
-                                                 
-                       <div class="search">{{ field }}<br /></div>
+                           {{ field.label }}<br />                                                
+                           {{ field }}
                                                   
                       {% endfor %}
                     <div class="btns">
@@ -66,11 +63,8 @@
                                   <form name="deleteMember" id="deleteMember">
                                                  {% csrf_token %}
                                                   {% for field in deleteMember %}
-                                                   <div class="error">{{ field.errors }}</div>
-                                                  
-                                                  <div class="name">{{ field.label }}<br /></div>
-                                                  
-                                                  <div class="search">{{ field }}<br /></div>
+                                                       {{ field.label }}<br />
+                                                       {{ field }}
                                                   
                                                   {% endfor %}
                                    <div class="btns">
@@ -85,7 +79,7 @@
                            <form name="staff_form" id="staff_form">
                              <div class="name">Tick to send<br /></div>
                              <div class="search">
-                                 <textarea id="staff_text" rows="10" cols="40" name="staff_text">
+                                 <textarea class="form-control" id="staff_text" rows="10" cols="40" name="staff_text">
                                  </textarea>
                             </div>
                            <div class="btns">

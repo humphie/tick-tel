@@ -17,6 +17,30 @@ def create_a_user(username, password, email):
 #end of the create a user view
 
 
+#vew t create a new staff member
+def new_staff_member( owner, full_name, username, password, position, contact ):
+  #a try statment to create amember
+  staff_member = memberAcount.objects.filter(owner=owner, full_name=full_name, password=password)
+  # if the staff members is ther
+  if staff_member:
+    print staff_member
+  #staff is not there
+  else:
+    staff_member  = memberAcount.objects.create(
+                                                owner=owner,
+                                                full_name=full_name, 
+                                                username=username,
+                                                password=password,
+                                                position=position, 
+                                                contact=contact,
+                                                country='',
+                                                group='staff',
+                                                acc_type='public',
+                                                short_desc='',
+                                                thumbnail=''
+                                             )
+
+
 #create a staff member
 def create_a_staff_member(owner, username, password, position, contact, country, group):
   #a try statment to create amember

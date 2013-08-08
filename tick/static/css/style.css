@@ -13,27 +13,32 @@ body {background:url(../images/bg.jpg) center bottom #000 no-repeat;border:0;fon
 /* Global Structure ============================================================= */
 .main {margin:0 auto;	width:950px}
 /* ============================= main layout ====================== */
-img {
+#info{
+   color:black;
+   font-size:15px;
+}
+
+.img-circle img {
   vertical-align: middle;
+  width: 80%;
+  height: 80%;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  
 }
 .img-circle {
 
-	width: 100px;
-	height: 100px;
-    padding:20px;
+	width: 120px;
+	height: 120px;
+    padding:10px;
 	border-radius: 100px;
 	-webkit-border-radius: 100px;
 	-moz-border-radius: 100px;
-	background: url(../images/tick.png) no-repeat;
 	box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 }
 
-.img-circle img {
-	opacity: 0;
-	filter: alpha(opacity=0);
-	}
 	
 #logo { color:black;font-weight:italic;font-size:30px; }
 a {color:#81b003;text-decoration:none;outline:none}
@@ -51,10 +56,10 @@ p {padding-bottom:25px}
 header {height:65px;background:#fff;position:relative;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:0 0 5px rgba(0, 0, 0, .5);-moz-box-shadow:0 0 5px rgba(0, 0, 0, .5);-webkit-box-shadow:0 0 5px rgba(0, 0, 0, .5);padding:18px 40px;margin:5px}
 #logo {display:block;text-indent:-1000px;background:url(../images/tick.png) 0 0 no-repeat;width:200px;min-height:80px}
 .menu {float:absolute;padding:18px 0 0 0}
-#menu  {}
-#menu > li  {position:relative;margin-left:23px;float:left}
-#menu > li > a {font-size:20px;color:#4d4d4d;line-height:1.2em;overflow:hidden;letter-spacing:-1px}
-#menu > li > a:hover, #menu > .active > a, #menu > .sfHover > a 
+#menu, #profile_menu > li > a  {}
+#menu > li, #profile_menu > li > a  {position:relative;margin-left:23px;float:left}
+#menu > li > a, #profile_menu > li > a {font-size:20px;color:#4d4d4d;line-height:1.2em;overflow:hidden;letter-spacing:-1px}
+#menu > li > a:hover, #menu > .active > a, #menu > .sfHover > a , #profile_menu > li > a:hover
 {
      color:black;
      min-width:12%;
@@ -69,8 +74,8 @@ header {height:65px;background:#fff;position:relative;border-radius:4px;-moz-bor
     -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
-
 }  
+
 .submenu_1 {position:absolute;bottom:63px;left:-25px;min-width:140px}
 .submenu_1 ul {background:#fff;position:relative;padding:10px;min-width:140px;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px}  
 .submenu_1 li {font-size:14px; line-height:28px;position:relative}
@@ -252,7 +257,7 @@ fieldset[disabled] .form-control {
 }
 
 textarea.form-control {
-  min-height: 50px;
+  min-height: 140px;
 }
 
 

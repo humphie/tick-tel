@@ -71,8 +71,7 @@ def login(request):
       #extract from the form
       username     = form.cleaned_data['username']
       password     = form.cleaned_data['password']
-       
-      print username, password     
+
       try:
         #check if the username  the password
         super_User = User.objects.get(username=username)
@@ -80,27 +79,21 @@ def login(request):
         super_User = []
       #it the user is in the User table
       if super_User:
-        print 'inside the super_user'
         #authenticate the user
         user = auth.authenticate(username=username, password=password)
         if user is not None and user.is_active:
-  
           #authenticate the user
           auth.login(request, user) 
-          print 'authentication has taken place'
           #check if the user is the account is private or organizatio
           account_type = memberAcount.objects.filter(owner=username, username=username, acc_type="public")
-          print account_type
           #send the user to the rigt direction
           if account_type:
-            print 'sending to the super_user'
             #set the destination to super user
             destination = HttpResponseRedirect('/super_user/')
           #not a super user
           else:
             #set the destination to private user
             destination = HttpResponseRedirect('/private_user/')
- 
         #send the user to admins site's home
         return destination
 
@@ -125,7 +118,6 @@ def login(request):
         
             #send the user to the staff home
             return HttpResponseRedirect('/user_staff/?org_acc/id-name=%s'%(username))
-            staff_user(request, username) 
 
 
         else:

@@ -15,10 +15,19 @@ var emptyFields = "<em id='err'>All fields must be filled in!</em>";
 
 
 //function to search a user
-function search_user()
+function search_user(div)
 {
+  if (div == ""){
+  //get the user name
+  var username = document.user_search_form.user_query_on_fly.value
+  
+  }
+  else if (div == 'not_on_fly')
+  {
   //get the user name
   var username = document.user_searchForm.user_query.value
+  
+  }
   
   //check if the var are empty
   if (username != "")

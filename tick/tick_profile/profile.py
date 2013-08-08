@@ -60,13 +60,30 @@ def change_password(request):
   #check if the user is authenticated
   if request.user.is_authenticated():
     #get the paswords
-    password = request.POST['change_password']
-    #get the user and change the password
-    new_password = User.objects.get(username__exact=request.user.username)
-    new_password.set_password(password)
-    new_password.save()
-    #redierect to the home page
-    return HttpResponseRedirect("/")
+    password = request.GET['password']
+    username = request.GET['Username']
+    #a try styatment to check if the user is an admin or staff
+    try:
+      #get the user and change the password
+      new_password = User.objects.get(username__exact=username)
+      new_password.set_password(password)
+      new_password.save()
+      #redierect to the home page
+      return HttpResponse("<em id='res'>Your password has been changed successfuly.<a href='/'>Click here to continue!</a></em>")
+    #user is not in the main table
+    except User.DoesNotExist:
+      #get the username of the user
+      staff = memberAcount.objects.filter(username=username).update(password=password)
+      #redierect to the home page
+      return HttpResponse("<em id='res'>Your password has been changed successfuly.<a href='/'>Click here to continue!</a></em>")
+    
+    #none of the above
+    else:
+      #
+      return HttpResponse("<em id='err'><a id='err' href='/'>Hacker????????????????????</a></em>")
+      
+      
+    #none og the above  
   #not authenticated
   else:
     return HttpResponseRedirect("/")
@@ -80,16 +97,17 @@ def profile_edit(request):
   #check if the user is authenticated
   if request.user.is_authenticated():
     #get the user data
+    username    = request.POST['Username']
     full_name   = request.POST['edit_full_name']
     contact     = request.POST['edit_contact']
     simple_desc = request.POST['edit_desc']
     thumbnail   = request.FILES['thumbnail']
     #save the data
-    profile = memberAcount.objects.filter(owner=request.user.username).update( full_name=full_name,
-                                                                               contact=contact,
-                                                                               short_desc=simple_desc,
-                                                                               thumbnail=thumbnail
-                                                                              )
+    profile = memberAcount.objects.filter(username=username).update( full_name=full_name,
+                                                                      contact=contact,
+                                                                      short_desc=simple_desc,
+                                                                      thumbnail=thumbnail
+                                                                    )
     return HttpResponseRedirect('/')
        
   #not authenticated
@@ -109,31 +127,44 @@ def user_search(request):
     form = ''
     #get he users in the memberAccount
     users = memberAcount.objects.filter(username__istartswith=query)
-    #create aform
-    form+='<form name="ticks" id="ticks">'
+    form+="""
+     <form name="user_search_form" id="user_search_form">
+       <input class="form-control" id="user_query_on_fly" type="text" name="user_query" maxlength="16" placeholder="search for a friend!" />
+        <img src="/static/admin/img/icon_searchbox.png"  onClick="return search_user('');"alt="Search" height="23px" width="23px" />
+         </form>
+      """
 
     #if there user
     if users:
       #loop thru the ticks
       for user in users:
-        form+='''
-                 <input type="checkbox" onchange="iaddon();" name="unread" value="%s">
-                 Name:&nbsp;&nbsp;%s<br />
-                 '''%(user.username, user.full_name)
-         #if the user has a description        
-        if not user.short_desc:
-          form+='Member of:&nbsp;&nbsp; <em id="res">%s</em> &nbsp; organization.<br />'%(user.owner)             
-          form+="<em id='res'>____________________________________________________________________________</em>"
-        #no description
+        #decide which thumbnail to display
+        if user.thumbnail:
+          thumnail = '%s'%(user.thumbnail)
         else:
-          form+="<em id='res'>%s</em><br />"%(user.short_desc)
-          form+="<em id='res'>____________________________________________________________________________</em>"
-      form+='</form>'
+          thumnail = '/static/images/tick.png'    
+        form+="""
+                   <table>
+                     <tr>
+                       <td style="padding-left:10px;">
+                        <img src="%s" class="img-circle">
+                       </td>
+     
+                       <td id="info">
+                           Name:&nbsp;&nbsp;&nbsp;%s<br />
+                           Location:&nbsp;&nbsp;%s<br />
+                           About Us:&nbsp;&nbsp;%s<br /> 
+                       </td>
+                     </tr>
+                   </table>
+                 """%(thumnail, user.username, user.country, user.short_desc)
+
       #return the form
       return HttpResponse(form)
     #no users
-    else: 
-      return HttpResponse('<em id="err">No user by that name!</em>')
+    else:
+      form+='<em id="err">No user by that name!</em>' 
+      return HttpResponse(form)
   #not authenticated
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")

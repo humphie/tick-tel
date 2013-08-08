@@ -64,7 +64,7 @@ def add_staff(request):
     #send the user to the rigt direction
     if pozition:
       #create a staff
-      create_a_staff_member(org, full_name, username, password, position, contact, 'staff', 'public', '')
+      new_staff_member( org, full_name, username, password, position, contact )
       
       #send the staff a welcome tick
       tick = Inbox.objects.create(

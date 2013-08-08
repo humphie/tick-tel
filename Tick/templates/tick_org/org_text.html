@@ -16,15 +16,11 @@
                        <h6><a href="#">{{credit.credit}}</a> units on your account!</h6>
                       {% endif %}
                           <form name="textForm" id="textForm">
-                                                 {% csrf_token %}
-                                                  {% for field in send %}
-                                                   <div class="error">{{ field.errors }}</div>
-                                                  
-                                                  <div class="name">{{ field.label }}<br /></div>
-                                                  
-                                                  <div class="search">{{ field }}<br /></div>
-                                                  
-                                                  {% endfor %}
+                             {% csrf_token %}
+                             {% for field in send %}
+                                 {{ field.label }}<br />
+                                 {{ field }}
+                             {% endfor %}
              {% if credit.credit < 30 %}
                   <em id="err">Please rechearge to activate this feature!</em>
              {% else %}
@@ -40,7 +36,7 @@
                       <div id="delete_report" style="display:none;">
             {% if super_user %}   
                           <form name="report_deleteForm" id="report_deleteForm">
-<input id="report_query" type="text" name="report_query" maxlength="20" placeholder="delete by date (yyyy-mm-dd)" value="" />
+<input class="form-control" id="report_query" type="text" name="report_query" maxlength="20" placeholder="delete by date (yyyy-mm-dd)" value="" />
 <img src="/static/admin/img/icon_deletelink.gif" onClick="return deleteform()" alt="Delete" height="20px" width="20px" />
    </form>
              {% endif %}
@@ -53,7 +49,7 @@
 
             <form name="report_searchForm" id="report_searchForm" >
                        {% csrf_token %}
-<input id="report_query" type="text" name="report_query" maxlength="20" placeholder="type the date as yyyy-mm-dd" value="" />
+<input class="form-control" id="report_query" type="text" name="report_query" maxlength="20" placeholder="type the date as yyyy-mm-dd" value="" />
 <img src="/static/admin/img/icon_searchbox.png" onClick="return report_search();" alt="Search" height="23px" width="23px" />
                   </form>
    <div id="msg_report" style="overflow:scroll;width:350px;height:350px;overflow-x:hidden" ><div >
