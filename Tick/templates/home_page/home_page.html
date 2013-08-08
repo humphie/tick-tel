@@ -1,7 +1,6 @@
 {% if user.is_authenticated %}
 <li id="page_Home">
    <div class="box">
-     <div class="wrapper">
 
 <ul id="profile_menu">
 {% if name %}
@@ -10,7 +9,9 @@
    <li><a href="#!/page_Home" onclick="return home();">{{ user.username }}'s profile </a></li>
 {% endif %}
 </ul>
-<br />
+
+     <div class="wrapper">
+
  	<div class="col1">
 
   <!--------------Links to reply, send message, search for a user, delete a message--------------------->
@@ -36,7 +37,7 @@
       <div id="all_ticks"style="display:block;overflow:scroll;width:450px;height:330px;overflow-x:hidden">
 <!--------------search for auser--------------------->
  
-  <form name="user_searchForm" id="user_searchForm">
+ <form name="user_searchForm" id="user_searchForm">
   {% csrf_token %}
  <input class="form-control" id="user_query" type="text" name="user_query" maxlength="16" placeholder="search for a friend!" />
  <img src="/static/admin/img/icon_searchbox.png"  onClick="return search_user('not_on_fly');"alt="Search" height="23px" width="23px" />

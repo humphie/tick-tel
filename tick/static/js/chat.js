@@ -24,8 +24,69 @@ function zaddon() {
  }
  
 ////////////////////////////////////////////////////////////////////////////////////
+//function to get the conversation
+function conversation()
+{
+   //get the src
+   var src      = document.reply_form.Username.value
+   //get the user name 
+   var username = document.getElementById('tick_query').value
+  //if the query is no empty
+  if (username != "" )
+  {
+   //check the network connection
+   if(window.navigator.onLine)
+    {
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {
+         xmlhttp=new XMLHttpRequest();
+               }
+    else
+      {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+         
+      }
 
+    xmlhttp.onreadystatechange=function()
+      {
+       if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+          //remove the intro div
+          document.getElementById('all_ticks').style.display = 'none';
+          //remove the intro div
+          document.getElementById('inbox_unread').style.display = 'block';
+          //append the response
+          document.getElementById("inbox_unread").innerHTML=xmlhttp.responseText;
+        }
+      }
 
+    data = "?src="+src+'&username='+username 
+    xmlhttp.open("GET","/conversation/"+data,true);
+    xmlhttp.send();
+  
+   }
+    //no connection
+    else
+    {
+     //return false
+     return false;     
+    }
+  }
+   //no more characters
+   else
+    {
+       //dispay the loading image
+      document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
+      //set timer
+      setTimeout(function(){
+              //append the result in the search div
+              document.getElementById('chat_res').innerHTML="<em id='res'>The search is complete!</em>";
+          }, 3000);
+       return false;
+    }
+}
+////////////////////////////////////////////////////////////////////////////////
 
 //function to get all tick
 function sync_ticks(flag)
@@ -221,7 +282,8 @@ function reply_tick()
 function chat_delete()
 {
    //get the id value to delete
-   var Id = '';
+   var Id  = '';
+   var src = document.reply_form.Username.value
    
    //check the flag of the message
    id1 = iaddon();
@@ -256,7 +318,8 @@ function chat_delete()
                 sync_ticks('all');
             }
       }
-    xmlhttp.open("GET","/tick_delete/?id="+Id,true);
+    data = "?id="+Id+"&src="+src
+    xmlhttp.open("GET","/tick_delete/"+data,true);
     xmlhttp.send();
     
         
@@ -291,7 +354,8 @@ function mark_read()
 {
 
    //get the id value to delete
-   var id = iaddon();
+   var id  = iaddon();
+   var src = document.reply_form.Username.value
 
    if (id != "")
    {
@@ -321,7 +385,8 @@ function mark_read()
                 sync_ticks('all');
             }
       }
-    xmlhttp.open("GET","/mark_read/?id="+id,true);
+    data = "?id="+id+"&src="+src
+    xmlhttp.open("GET","/mark_read/"+data,true);
     xmlhttp.send();
     
         

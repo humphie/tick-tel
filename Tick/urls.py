@@ -53,6 +53,7 @@ urlpatterns = patterns('',
         url(r'^profile_edit/$',   profile_edit),
         url(r'^change_password/$',change_password),
         url(r'^change_account/$', change_account),
+        url(r'^conversation/$',   conversation),
 
        )
        

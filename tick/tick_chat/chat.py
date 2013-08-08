@@ -1,6 +1,7 @@
 import datetime
 from tick.models import Inbox
 from tick .db_manager import *
+from django.http import HttpResponseRedirect
 from django.shortcuts import HttpResponse
 from django.contrib import auth
 from django.contrib.auth.models import User
@@ -8,7 +9,81 @@ from django.contrib.auth.models import User
 
 #date to day
 date = datetime.datetime.today()
+#tick search form
+tick_form = '''
+         <form name="tick_search_form" id="tick_search_form">
+           <input class="form-control" id="tick_query" type="text"
+           name="tick_query" maxlength="16"
+           placeholder="type a friend to view the conversation!" 
+           onkeyup="setTimeout(function(){ conversation(); }, 3000);" />
+         </form>
+                '''
 
+
+
+#function to get the conversation
+def conversation(request):
+  #check if the user is authenticated and the method is get
+  if request.user.is_authenticated() and request.method == "GET": 
+    #ge the username
+    src      = request.GET['src']
+    username = request.GET['username']
+    #string form
+    conversation=''
+    #get the ticks
+    ticks_to_username = Inbox.objects.filter( sender=src, recipient__istartswith=username )
+    #get the ticks by the user
+    ticks_to_src = Inbox.objects.filter( sender__istartswith=username, recipient=src )
+    #join the ticks 2getha
+    ticks = list(ticks_to_username)+list(ticks_to_src)
+    #check if the are ticks
+    if ticks:
+      #form title
+      conversation+='<form name="ticks" id="ticks">'
+      #add the tick search
+      conversation+=tick_form
+  
+      #loop thru the ticks
+      for tick in ticks:
+        #if the flag is un_read style the tick
+        if tick.flag == 'un_read':
+          conversation+='<div style=background-color:#CCFFFF;>'
+        #the ckeck box
+        conversation+='<input type="checkbox" onchange="iaddon();" name="unread" value="%s">'%(tick.id)
+        #check if the user is the sender or the recipient
+        if src == tick.sender:
+          conversation+='Sent to:&nbsp;&nbsp;%s<br />'%(tick.recipient)
+        #user is the recipient
+        else:
+          conversation+='From:&nbsp;&nbsp;%s<br />'%(tick.sender)
+        #message         
+        conversation+='%s&nbsp;&nbsp;<br />'%(tick.message)
+        #date
+        conversation+='%s&nbsp;&nbsp;'%(tick.date)
+
+        conversation+='<em id="res">%s</em><br />'%(tick.flag)
+        conversation+='______________________________________________________________'
+        #cloz the div if the flag i un_read
+        if tick.flag == 'un_read':
+          conversation+='</div>'
+      conversation+='</form>'
+      #return the form
+      return HttpResponse(conversation)         
+    #no ticks
+    else:
+      conversation += tick_form
+      conversation += '<strong id="res">No conversation with %s!</strong>'%(username)
+    #return the form
+    return HttpResponse(conversation)         
+    
+    
+
+
+  #not authenticated or the request method is not get
+  else:
+    return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
+  
+###############################################################################3  
 
 
 #view to return unread ticks of a user
@@ -17,7 +92,8 @@ def sync_ticks(request):
   if request.user.is_authenticated():
     #string form
     un_read=''
-    #ge the username
+
+    #get the username
     username  = request.GET['src']
     flag      = request.GET['flag']
     #check the flag
@@ -48,6 +124,8 @@ def sync_ticks(request):
       un_read+=title
       #form title
       un_read+='<form name="ticks" id="ticks">'
+      #add the tick search
+      un_read+=tick_form
   
       #loop thru the ticks
       for tick in ticks:
@@ -78,11 +156,14 @@ def sync_ticks(request):
         if tick.flag == 'un_read':
           un_read+='</div>'
       un_read+='</form>'
+      #return all unread ticks
+      return HttpResponse(un_read)
     #no ticks
     else:
-      un_read = '<strong id="res">No unread ticks!</strong>'
-    #return the form
-    return HttpResponse(un_read)         
+      un_read += tick_form
+      un_read += '<strong id="res">No unread ticks!</strong>'
+      #return the form
+      return HttpResponseRedirect('/Sync_ticks/?src=%s&flag=%s'%(username, 'all'))         
   
   #user not authenticated
   else:
@@ -96,7 +177,7 @@ def reply_tick(request):
   if request.user.is_authenticated():
   
     #get the sent data
-    src  = request.GET['src']
+    src     = request.GET['src']
     Id      = request.GET['id']
     message = request.GET['message']
     
@@ -109,18 +190,25 @@ def reply_tick(request):
 
         #ge the inforabout the id    
         id_meta_data = Inbox.objects.get(id=recip)
-        # send the tick
-        tick = Inbox.objects.create(
-                                     sender=src,
-                                     recipient=id_meta_data.sender,
-                                     message=message, 
-                                     flag='un_read',
-                                     date=date
-                                    )
-        #change the flag of the id tick to read
-        flag = Inbox.objects.filter(id=recip).update(flag="read")
-      #rturn a success message
-      return HttpResponse("<em id='res'>Tick sent successfuly to %s</em>"%(id_meta_data.sender))
+        #if the source is the recipient
+        if id_meta_data.sender != src:
+          # send the tick
+          tick = Inbox.objects.create(
+                                      sender=src,
+                                      recipient=id_meta_data.sender,
+                                      message=message, 
+                                      flag='un_read',
+                                      date=date
+                                     )
+          #change the flag of the id tick to read
+          flag = Inbox.objects.filter(id=recip).update(flag="read")
+          #return a success message
+          return HttpResponse("<em id='res'>Tick sent successfuly to %s</em>"%(id_meta_data.sender))
+
+        #user not the recipient
+        else:
+          #return a success message
+          return HttpResponse("<em id='err'>Hello %s, you cant tick your self!!</em>"%(src))
     
     #id is emty
     else:
@@ -173,14 +261,15 @@ def mark_read(request):
   #if user.is_authenticated():
   if request.user.is_authenticated():
     #get the id from the user
-    Id = request.GET['id']
+    src = request.GET['src']
+    Id  = request.GET['id']
     #check if the id is empty
     if Id !="":
       #afor loop incase they are multiple
       for tick in Id[:-1].split(','):
 
         #change the flag of the id tick to read
-        flag = Inbox.objects.filter(id=tick).update(flag="read")
+        flag = Inbox.objects.filter(id=tick, recipient=src).update(flag="read")
       #send a success message
       return HttpResponse('<em id="res">Tick(s) have been marked read.</em>')
       
@@ -199,13 +288,14 @@ def tick_delete(request):
   #if user.is_authenticated():
   if request.user.is_authenticated():
     #get the id from the user
-    Id = request.GET['id']
+    Id  = request.GET['id']
+    src = request.GET['src']
     #check if the id is empty
     if Id !="":
       #a for loop in case they are multiple
       for tick in Id[:-1].split(','):
         #change the flag of the id tick to read
-        flag = Inbox.objects.filter(id=tick).delete()
+        flag = Inbox.objects.filter(id=tick, recipient=src).delete()
 
       #send a success message
       return HttpResponse('<em id="res">Tick(s) have been deleted.</em>')

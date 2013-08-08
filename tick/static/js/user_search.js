@@ -6,6 +6,7 @@ var emptyFields = "<em id='err'>All fields must be filled in!</em>";
 //toggle the disply
  function home()
  {
+  clearAll('dashboard');
   document.getElementById('inbox_unread').style.display = 'none';
   document.getElementById('all_ticks').style.display = 'block';
  }

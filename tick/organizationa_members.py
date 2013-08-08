@@ -60,7 +60,7 @@ def add_staff(request):
     contact  = request.GET['contact']
 
     #check if the user is an administrator
-    pozition = memberAcount.objects.filter(owner=org, username=org, position="administrator")
+    pozition = memberAcount.objects.filter(owner=org, username=org, position="administrator", acc_type="public")
     #send the user to the rigt direction
     if pozition:
       #create a staff

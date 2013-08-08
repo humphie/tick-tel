@@ -15,7 +15,7 @@ def change_account(request):
     #check if the request was empty
     if acc_type != "":
       #get the current account type
-      current_acc_type = memberAcount.objects.get(owner=request.user.username)
+      current_acc_type = memberAcount.objects.get(username=request.user.username)
       #account type organization
       if current_acc_type.acc_type == "public" and acc_type == "private":
         #delete all the staff members 
@@ -140,7 +140,7 @@ def user_search(request):
       for user in users:
         #decide which thumbnail to display
         if user.thumbnail:
-          thumnail = '%s'%(user.thumbnail)
+          thumnail = '/media/users/%s'%(user.thumbnail)
         else:
           thumnail = '/static/images/tick.png'    
         form+="""
