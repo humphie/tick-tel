@@ -3,7 +3,16 @@
 <head>
   <title>
     {% if user.is_authenticated %}
-        Tick:: {{ user.username }}
+        {% if name %}
+        
+           Tick:: {{ name }} in {{ user.username }}
+        
+        {% else %}
+           
+           Tick:: {{ user.username }}
+           
+        {% endif %}
+        
     {% else %}
         Tick::A Revelation!
     {% endif %}

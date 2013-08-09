@@ -72,20 +72,21 @@ def login(request):
       username     = form.cleaned_data['username']
       password     = form.cleaned_data['password']
 
+      #check if the username  the password
       try:
-        #check if the username  the password
-        super_User = User.objects.get(username=username)
+        super_User = User.objects.get( username=username )
+      #user does not exist
       except:
         super_User = []
       #it the user is in the User table
       if super_User:
         #authenticate the user
-        user = auth.authenticate(username=username, password=password)
+        user = auth.authenticate( username=username, password=password )
         if user is not None and user.is_active:
           #authenticate the user
-          auth.login(request, user) 
+          auth.login(request, user)
           #check if the user is the account is private or organizatio
-          account_type = memberAcount.objects.filter(owner=username, username=username, acc_type="public")
+          account_type = memberAcount.objects.filter( owner=username, username=username, acc_type="public" )
           #send the user to the rigt direction
           if account_type:
             #set the destination to super user
@@ -94,32 +95,41 @@ def login(request):
           else:
             #set the destination to private user
             destination = HttpResponseRedirect('/private_user/')
-        #send the user to admins site's home
-        return destination
-
+          #send the user to admins site's home
+          return destination
+        #if authentication fails
+        else:
+          return HttpResponseRedirect('/')  
           
 
-      #the staff user not the super user
+      #the staff user not the super User
       else:
         #check if the user is a staff user
-        staff_User = memberAcount.objects.filter(username=username, password=password)
- 
-        if staff_User:
-          #get the organization
-          staff = memberAcount.objects.get(password=password)
-          #get the arganization in which the staff belongd
-          organization = User.objects.get(username=staff.owner)
-          #authenticate the user
-          user = auth.authenticate(username=organization, password=organization)
-          if user is not None and user.is_active:
- 
-            #authenticate the user
-            auth.login(request, user) 
+        staff_User = memberAcount.objects.filter( username=username, password=password )
         
-            #send the user to the staff home
-            return HttpResponseRedirect('/user_staff/?org_acc/id-name=%s'%(username))
-
-
+        if staff_User:
+          #try sttment to get the users
+          try:
+            #get the staff member
+            staff = memberAcount.objects.get(password=password)
+            #get the arganization in which the staff belonges 
+            organization = memberAcount.objects.get(username=staff.owner)
+            #authenticate the the organization
+            user = auth.authenticate( username=organization.owner, password=organization.password )
+            if user is not None and user.is_active:
+              #authenticate the user
+              auth.login(request, user) 
+              #send the user to the staff home
+              return HttpResponseRedirect('/user_staff/?org_acc/id-name=%s'%(username))
+            #the authentiction has failed
+            else:
+              return HttpResponseRedirect('/') 
+          
+          #usera does not exist
+          except:
+            return HttpResponseRedirect('/') 
+          
+        #staff not in the table
         else:
           return HttpResponseRedirect('/') 
     else:              

@@ -49,7 +49,7 @@
 
             <form name="report_searchForm" id="report_searchForm" >
                        {% csrf_token %}
-<input class="form-control" id="report_query" type="text" name="report_query" maxlength="20" placeholder="type the date as yyyy-mm-dd" value="" />
+<input class="form-control" id="report_query" type="search" name="report_query" maxlength="20" placeholder="type the date as yyyy-mm-dd" value="" />
 <img src="/static/admin/img/icon_searchbox.png" onClick="return report_search();" alt="Search" height="23px" width="23px" />
                   </form>
    <div id="msg_report" style="overflow:scroll;width:350px;height:350px;overflow-x:hidden" ><div >

@@ -20,7 +20,7 @@
                             <div class="col1">
                         <form name="contact_searchForm" id="contact_searchForm">
                             {% csrf_token %}
-<input class="form-control" id="id_query" type="text" name="query" maxlength="16" placeholder="type the name to search here" />
+<input class="form-control" id="id_query" type="search" name="query" maxlength="16" placeholder="type the name to search here" />
 <img src="/static/admin/img/icon_searchbox.png"  onClick="return searchValidate();"alt="Search" height="23px" width="23px" />
                        </form>
                                 <!-- result for the search by name-->
