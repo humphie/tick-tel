@@ -4,11 +4,14 @@
                 <div class="wrapper">
                 <!--links for deferent forms-->
                  <div id="Phonebook_links" style="display: block;">
-                   || <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_edit');">Edit Contact</a> ||
+                   || <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_numbers');">Contacts</a> ||
+                   <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_edit');">Edit Contact</a> ||
                    <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_save');">Add Contact</a> ||
                    <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_delete');">Delete Contact</a> || 
-                   <a href="#!/page_PhoneBook" onClick="return drawDiv('phonebook_text');">Send Text</a> ||
-                   <a href="#!/page_PhoneBook" onClick="return drawDiv('contact_numbers');">Contacts</a> ||
+                    {% if credit.credit < 30 %} 
+                    {% else %}
+                     <a href="#!/page_PhoneBook" onClick="return drawDiv('phonebook_text');">Send Text</a> ||
+                    {% endif %}
                  </div>                          
                              
                       <!--div for the contacts-->
@@ -19,25 +22,11 @@
 <img src="/static/admin/img/icon_searchbox.png"  onClick="return searchValidate();"alt="Search" height="23px" width="23px" />
                        </form>
                                 <!-- result for the search by name-->
-                                <div style="display:block;overflow:hidden;width:270px;background:#!/page_PhoneBookf2f2f2;">
-    <div id="contact_search_result" style="display: none;overflow:scroll;width:310px;height:300px;overflow-x:hidden">
+                                <div style="display:block;overflow:hidden;width:370px;background:#!/page_PhoneBookf2f2f2;">
+    <div id="contact_search_result" style="display: block;overflow:scroll;background:#f2f2f2;width:410px;height:300px;overflow-x:hidden">
     </div>
                                 </div>
                                 <!-- result for the search by name-->
-                                 <!---------div to hold numbers------------->
-                <div id="contact_numbers" style="display:block;overflow:hidden;width:290px;background:#f2f2f2;">
-                             <div style="overflow:scroll; width:310px; height:300px; overflow-x:hidden;">
-                    <input style="display: none;" type='hidden' name='syncSignal' id='syncSignal' value='true' />
-                                 <!-- result for the search by name-->
-                            <p style="color:black;font-size:14px;">
-                               Welcome to Tick&trade; Phonebook, get to save contacts,
-                               and Group them in real life.</br>
-                               You can alse get to send them Messages and if they are on Tick&trade;
-                               send them a Tick! from your Dashboard!!
-                            </p>
-                                    </div>
-                                 <!---------div to hold numbers------------->
-                           </div>  
                                         </div>
                   <!--end of contacts div-->
                   
@@ -57,7 +46,6 @@
                                  <select name="group">
                                     <option>Select a group:</option>
                                     <option value="all">All</option>
-                                    <option value="staff">Staff</option>
                                      {% for group in numbers %}
                                        <option value="{{ group.group }}">{{ group.group }}</option>
                                       {% endfor %}

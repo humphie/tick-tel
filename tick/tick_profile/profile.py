@@ -51,7 +51,7 @@ def change_account(request):
   #not authenticated
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
-###########################################################################################################S  
+################################################################################
 
 
 
@@ -87,7 +87,7 @@ def change_password(request):
   #not authenticated
   else:
     return HttpResponseRedirect("/")
-###########################################################################################################S  
+################################################################################  
 
 
 
@@ -113,11 +113,11 @@ def profile_edit(request):
   #not authenticated
   else:
     return HttpResponseRedirect("/")
-###########################################################################################################S  
+################################################################################  
 
 
 
-########################################################################
+################################################################################
 def user_search(request):
   #authenticated
   if request.user.is_authenticated():
@@ -138,10 +138,12 @@ def user_search(request):
     if users:
       #loop thru the ticks
       for user in users:
-        #decide which thumbnail to display
-        if user.thumbnail:
+        #decide which thumbnail and name to display
+        if user.thumbnail and user.full_name:
+          name     = user.full_name
           thumnail = '/media/users/%s'%(user.thumbnail)
         else:
+          name     = user.username
           thumnail = '/static/images/tick.png'    
         form+="""
                    <table>
@@ -157,8 +159,8 @@ def user_search(request):
                        </td>
                      </tr>
                    </table>
-                 """%(thumnail, user.username, user.country, user.short_desc)
-
+                 """%(thumnail, name, user.country, user.short_desc)
+        form+="<p style=background-color:#CCFFFF;></p>"  
       #return the form
       return HttpResponse(form)
     #no users
@@ -168,4 +170,4 @@ def user_search(request):
   #not authenticated
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
-########################################################################
+################################################################################

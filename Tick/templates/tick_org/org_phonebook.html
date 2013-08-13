@@ -16,46 +16,31 @@
                     {% endif %}
                  </div>                          
                              
+                             
                       <!--div for the contacts-->
                             <div class="col1">
                         <form name="contact_searchForm" id="contact_searchForm">
                             {% csrf_token %}
-<input class="form-control" id="id_query" type="search" name="query" maxlength="16" placeholder="type the name to search here" />
+<input id="id_query" type="text" name="query" maxlength="16" placeholder="type the name to search here" />
 <img src="/static/admin/img/icon_searchbox.png"  onClick="return searchValidate();"alt="Search" height="23px" width="23px" />
                        </form>
                                 <!-- result for the search by name-->
-                          <div style="display:block;overflow:hidden;width:355px;background:#f2f2f2;">
-    <div id="contact_search_result" style="display: none;overflow:scroll;width:370px;height:300px;overflow-x:hidden">
+                                <div style="display:block;overflow:hidden;width:370px;background:#!/page_PhoneBookf2f2f2;">
+    <div id="contact_search_result" style="display: block;overflow:scroll;background:#f2f2f2;width:410px;height:300px;overflow-x:hidden">
     </div>
                                 </div>
                                 <!-- result for the search by name-->
-                                 <!---------div to hold numbers------------->
-                <div id="contact_numbers" style="display:block;overflow:hidden;width:355px;background:#f2f2f2;">
-                             <div style="overflow:scroll; width:370px; height:300px; overflow-x:hidden;">
-                    <input style="display: none;" type='hidden' name='syncSignal' id='syncSignal' value='true' />
-                                      
-                            <p style="color:black;font-size:14px;">
-                               Welcome to Tick&trade; Phonebook, get to save contacts,
-                               and Group them in real life.</br>
-                               You can alse get to send them Messages and if they are on Tick&trade;
-                               send them a Tick! from your Dashboard!!
-                            </p>
-                                      
-                                   </div>
-                                 <!---------div to hold numbers------------->
-                              </div>  
-                            
-                            </div>
+                                        </div>
                   <!--end of contacts div-->
                   
                   <div class="col2 pad_left1" id="PhoneBook" style="display: none;">
                    
                  <!--div for sending a text -->
-                            <div id="phonebook_text" style="display: none;">
+          <div id="phonebook_text" style="display: none;">
                          {% if credit.credit < 30 %}
                            <h6 ><em id="err">{{credit.credit}} units on your account!</em></h6>
                          {% else %}
-                           <h6><a href="#">{{credit.credit}}</a> units on your account!</h6>
+                           <h6><a href="#!/page_PhoneBook">{{credit.credit}}</a> units on your account!</h6>
                           {% endif %}                             
 
                            	<form name="FormBook" id="FormBook">
@@ -71,8 +56,8 @@
                                 </select><br />
  
                                   {% for field in phoneBook %}
-                                      {{field.name}}<br />
-                                      {{field}}
+                                 {{field.name}}<br />
+                                  {{field}}
                                   {% endfor %}
 
                          {% if credit.credit < 30 %}
@@ -84,38 +69,36 @@
                              </div>                             
                          {% endif %} 
                          </form>	
-
-                            </div>
+              </div>
                  <!--end of phonebook_text -->
 
                       <!------------save a contact form------------>
                        <div id="contact_save" style="display: none;">
-                             {% if super_user %}
-                         <h3><a href="#">Save Contact</a></h3>	
+                         <h3><a href="#!/page_PhoneBook">Save Contact</a></h3>	
                          <form name="contact_saveForm" id="contact_saveForm">
                                {% csrf_token %}
                                {% for field in saveNum %}
-                                    {{ field.label }}<br />
-                                    {{ field }}                                                 
+                                 {{ field.label }}<br />
+                                                 
+                                 {{ field }}
                               {% endfor %}
                            <div class="btns">
                            <input type="button" class="button1" value="Save" onClick="return saveValidate()">
                            <input type="reset" class="button1" value="Clear">
                           </div>
                          </form>
-                             {% endif %}
                        </div>
              <!------------end save a contact form------------>
 
              <!------edit form-------->
                       <div id="contact_edit" style="display: none;">
-                             {% if super_user %}
-                                 <h3><a href="#">Edit Contact</a></h3>	
+                                 <h3><a href="#!/page_PhoneBook">Edit Contact</a></h3>	
                                   <form name="contact_editForm" id="contact_editForm">
                                                  {% csrf_token %}
                                                   {% for field in saveNum %}
-                                                        {{ field.label }}<br />
-                                                        {{ field }}
+                                                 {{ field.label }}<br />
+                                                  
+                                                  {{ field }}
                                                   
                                                   {% endfor %}
                             <div class="btns">
@@ -123,25 +106,22 @@
                                    <input type="reset" class="button1" value="Clear">
                             </div>
                                </form>
-                             {% endif %}
                       </div>
               <!------------end of edit form--------->
 
              <!------------delete form------------>
                       <div id="contact_delete" style="display: none;">
-                             {% if super_user %}
-                                 	<h3><a href="#">Delete Contact</a></h3>	
+                                 	<h3><a href="#!/page_PhoneBook">Delete Contact</a></h3>	
                                   <form name="contact_deleteForm" id="contact_deleteForm">
                                                  {% csrf_token %}
                                                   {% for field in deleteNum %}
-                                                       {{ field.label }}<br />
-                                                       {{ field }}                                                 
+                                                 {{ field.label }}<br />
+                                                  {{ field }}
                                                   {% endfor %}
                                 <div class="btns">
                                 <input type="button" class="button1" value="Delete" onClick="return deleteContact()">
                                 </div>
                                </form>
-                             {% endif %}
                       </div>
               <!------------end of delete form------------>
                   </div>
@@ -150,4 +130,3 @@
                  <div id="Response_Phonebook"></div>
             </div>
 		</li>
-

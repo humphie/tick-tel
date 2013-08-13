@@ -45,8 +45,6 @@ function drawDiv(div)
      document.getElementById("PhoneBook").style.display = 'block';
      //display the phonebook send form
      document.getElementById("phonebook_text").style.display = 'block';  
-     //call the syncSignalCheck()
-     syncSignalCheck();
    }
    else if (div == 'contact_save')
    {
@@ -56,8 +54,6 @@ function drawDiv(div)
      document.getElementById("PhoneBook").style.display = 'block';
      //display the save form
      document.getElementById("contact_save").style.display = 'block';
-     //call the syncSignalCheck()
-     syncSignalCheck();
    }
    else if (div == 'contact_edit')
    {
@@ -67,8 +63,6 @@ function drawDiv(div)
      document.getElementById("PhoneBook").style.display = 'block';
      //display the edit form
      document.getElementById("contact_edit").style.display = 'block';
-     //call the syncSignalCheck()
-     syncSignalCheck();
    }
    else if (div == 'contact_delete')
    {
@@ -78,16 +72,11 @@ function drawDiv(div)
      document.getElementById("PhoneBook").style.display = 'block';
      //display the delete form
      document.getElementById("contact_delete").style.display = 'block';
-     //call the syncSignalCheck()
-     syncSignalCheck();
    }
    else if (div == "contact_numbers")
    {
      //clear the page
      clearAll("phonebook");
-     //call the syncSignalCheck()
-     getNumbers();
-     //syncSignalCheck();
    }
 
 //send_msg form
@@ -191,16 +180,6 @@ function drawDiv(div)
 
 
 
-//function to check if the syncSignal is true or false on the contacts div
-function syncSignalCheck()
-{
-      //check the syncSignal
-      if (document.getElementById("syncSignal").value == "true"){getNumbers();}     
-   }
-
-
-
-
 //function to clear every din on the phonebook page
 function clearAll(page)
 {
@@ -235,12 +214,12 @@ function clearAll(page)
      document.getElementById("contact_edit").style.display = 'none';
      //remove response div
      document.getElementById("Response_Phonebook").style.display = 'none';
-    //remove contact_numbers
-      document.getElementById("contact_numbers").style.display = 'none';
      //remove the phonenumbers
      document.getElementById("PhoneBook").style.display = 'none';
      //remove the search result
      document.getElementById("contact_search_result").style.display = 'block';
+     //get the numbers
+     getNumbers();
   }
   //if page is for sending sn sms
   else if (page == "send_text")

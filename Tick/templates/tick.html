@@ -55,6 +55,9 @@
 <!------------------------------if the user is authenticated------------------------------->
         {% if user.is_authenticated %}
 <!------------------------------if the user is authenticated------------------------------->
+            <!-----------------Register/home page -------------------------->
+                {% include 'audio.html' %}
+           <!------------------Home/register page end -------------------------->
 
 <!------------------------------if the user is private------------------------------->
            {% if private_user %}
@@ -148,6 +151,15 @@ $(window).load(function() {
 	$('body').css({overflow:'visible'})
 })
 </script>
+{% if user.is_authenticated %}
+  {% if user.username == "tick" %}
+    {% if name %}
+    {% else %}
+         <script src="/static/js/audio.js"></script>  
+    {% endif %} 
+  {% else %}
+  {% endif %}
+{% endif %}
 <!--coded by humphie-->
 </body>
 </html>

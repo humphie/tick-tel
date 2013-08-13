@@ -24,6 +24,11 @@ reg_mail = '''
 
 #send all messages from here
 def send_text(name, message, contact):
+  #a dict to hold the data
+  data = {}
+  data["username"] = "256703000289"
+  data["password"] = "humphrey"
+  data[""]
   return 
 #end of the send module
 

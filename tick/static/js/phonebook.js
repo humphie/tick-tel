@@ -384,7 +384,6 @@ function getNumbers()
                 //append the response
                 document.getElementById("contact_search_result").innerHTML=xmlhttp.responseText;
                 //set the syncSignal to false
-                document.getElementById("syncSignal").value = "false";
             }
       }
     

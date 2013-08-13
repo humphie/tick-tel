@@ -24,6 +24,9 @@ function member_chat(){
 
    //check if the fields are empty
    var name = naddon();
+   //get the src
+   var src      = document.reply_form.Username.value
+   //get the message
    var message = document.staff_form.staff_text.value
    
    if (name != "" || message != "")
@@ -56,7 +59,7 @@ function member_chat(){
                 document.getElementById("membersPage_response").innerHTML=xmlhttp.responseText;
             }
       }
-    data = "?name="+name+"&message="+message
+    data = "?name="+name+"&message="+message+ "&src="+src
     xmlhttp.open("GET","/send_tick/"+data,true);
     xmlhttp.send();
     

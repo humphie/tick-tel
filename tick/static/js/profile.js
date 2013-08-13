@@ -10,7 +10,7 @@ function acc_change(acc_type)
       //check network connection
    if(window.navigator.onLine)
     {
-
+     document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
     var xmlhttp;
     if (window.XMLHttpRequest)
       {
@@ -114,6 +114,7 @@ function pword_change()
   //check if there is an internet connection
    if (window.navigator.onLine)
    {
+     document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
     var xmlhttp;
     if (window.XMLHttpRequest)
       {

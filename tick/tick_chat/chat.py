@@ -17,7 +17,7 @@ tick_form = '''
            placeholder="type a friend to view the conversation!" 
            onkeyup="setTimeout(function(){ conversation(); }, 3000);" />
          </form>
-                '''
+          '''
 
 
 
@@ -47,7 +47,9 @@ def conversation(request):
       for tick in ticks:
         #if the flag is un_read style the tick
         if tick.flag == 'un_read':
-          conversation+='<div style=background-color:#CCFFFF;>'
+          conversation+='<div style="background:url(/static/images/un_read.png)30% 30% no-repeat;">'
+        else:
+          conversation+='<div style="background:url(/static/images/read.png)30% 30% no-repeat;">'
         #the ckeck box
         conversation+='<input type="checkbox" onchange="iaddon();" name="unread" value="%s">'%(tick.id)
         #check if the user is the sender or the recipient
@@ -59,13 +61,9 @@ def conversation(request):
         #message         
         conversation+='%s&nbsp;&nbsp;<br />'%(tick.message)
         #date
-        conversation+='%s&nbsp;&nbsp;'%(tick.date)
-
-        conversation+='<em id="res">%s</em><br />'%(tick.flag)
-        conversation+='______________________________________________________________'
-        #cloz the div if the flag i un_read
-        if tick.flag == 'un_read':
-          conversation+='</div>'
+        conversation+='%s&nbsp;&nbsp;<br />'%(tick.date)
+        conversation+='______________________________________________________________</div><br />'
+      #close the form
       conversation+='</form>'
       #return the form
       return HttpResponse(conversation)         
@@ -131,7 +129,9 @@ def sync_ticks(request):
       for tick in ticks:
         #if the flag is un_read style the tick
         if tick.flag == 'un_read':
-          un_read+='<div style=background-color:#CCFFFF;>'
+          un_read+='<div style="background:url(/static/images/un_read.png)30% 30% no-repeat;">'
+        else:
+          un_read+='<div style="background:url(/static/images/read.png)30% 30% no-repeat;">'
         #the ckeck box
         un_read+='<input type="checkbox" onchange="iaddon();" name="unread" value="%s">'%(tick.id)
         #check if the user is the sender or the recipient
@@ -143,18 +143,8 @@ def sync_ticks(request):
         #message         
         un_read+='%s&nbsp;&nbsp;<br />'%(tick.message)
         #date
-        un_read+='%s&nbsp;&nbsp;'%(tick.date)
-        #put the flag if the request is for all ticks
-        if flag == 'all':
-          un_read+='<em id="res">%s</em><br />'%(tick.flag)
-          un_read+='______________________________________________________________'
-       #else
-        else:
-          un_read+='<br />'
-          un_read+='______________________________________________________________'  
-        #cloz the div if the flag i un_read
-        if tick.flag == 'un_read':
-          un_read+='</div>'
+        un_read+='%s&nbsp;&nbsp;<br />'%(tick.date)
+        un_read+='______________________________________________________________</div><br />'  
       un_read+='</form>'
       #return all unread ticks
       return HttpResponse(un_read)
@@ -225,10 +215,15 @@ def reply_tick(request):
 def send_tick(request):
   #check if user is authenticated
   if request.user.is_authenticated():
-    #get the request dataa
+    #get the request data
+    src   = request.GET['src']
     names = request.GET['name']
     message = request.GET['message']
-    
+    #get the sender
+    if src == request.user.username:
+      sender = request.user.username
+    else:
+      sender = src  
     #in case there are multiple
     for name in names.split(','):
       #check if the user really exists
@@ -238,7 +233,7 @@ def send_tick(request):
       if user1 or user2:
         #sent the tick
         tick = Inbox.objects.create(
-                                    sender=request.user.username,
+                                    sender=sender,
                                     recipient=name,
                                     message=message, 
                                     flag='un_read',
@@ -250,11 +245,12 @@ def send_tick(request):
       #user not found
       else:
         return HttpResponse('<em id="err">Sorry, the user %s does not exist on Tick.</em>'%(name))
-        break;
   #user no authenticated
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")  
     
+
+
     
 #function to mack ticks as read
 def mark_read(request):
@@ -269,7 +265,7 @@ def mark_read(request):
       for tick in Id[:-1].split(','):
 
         #change the flag of the id tick to read
-        flag = Inbox.objects.filter(id=tick, recipient=src).update(flag="read")
+        flag = Inbox.objects.filter( id=tick, recipient=src ).update(flag="read")
       #send a success message
       return HttpResponse('<em id="res">Tick(s) have been marked read.</em>')
       

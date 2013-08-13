@@ -8,10 +8,11 @@
 <nav class="menu">
  <ul id="menu">
   <li><a href="#!/page_Home">Home</a></li>
+  <li id="audio_link" style="display:none;" ><a href="#!/page_Tock">Tock</a></li>
   <li><a href="#!/page_Text" >Text</a></li> 
   <li><a href="#!/page_Calendar" >Calendar</a></li>
-  <li><a href="#!/page_PhoneBook" >PhoneBook</a></li>
-  <li><a href="#!/page_Members">Staff Members</a></li>
+  <li><a href="#!/page_PhoneBook" onCLick="return getNumbers();">PhoneBook</a></li>
+  <li><a href="#!/page_Members" onCLick="return syncMembers('');">Staff</a></li>
   </ul>
  </li>
 </nav>
