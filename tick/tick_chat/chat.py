@@ -147,9 +147,9 @@ def sync_ticks(request):
     #no ticks
     else:
       un_read += tick_form
-      un_read += '<strong id="res">No unread ticks!</strong>'
+      un_read += '<strong id="res">No ticks in your Inbox!</strong>'
       #return the form
-      return HttpResponseRedirect('/Sync_ticks/?src=%s&flag=%s'%(username, 'all'))         
+      return HttpResponse(un_read)         
   
   #user not authenticated
   else:
