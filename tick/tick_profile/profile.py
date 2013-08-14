@@ -39,7 +39,7 @@ def change_account(request):
         #update the account cow
         new_account = memberAcount.objects.filter(owner=request.user.username).update(acc_type=acc_type)
         #send a success message
-        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/public_user'>Click here to continue!</a></em>")
+        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/super_user'>Click here to continue!</a></em>")
       
       
       #acount is not defined
