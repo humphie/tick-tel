@@ -143,6 +143,8 @@ function send_chat(){
    //check if the fields are empty
    var name    = document.form_tick.username.value
    var message = document.form_tick.tick_chat.value
+   //get the src
+   var src      = document.reply_form.Username.value
    
    if (name != "" || message != "")
    {
@@ -174,11 +176,9 @@ function send_chat(){
                 sync_ticks('un_read');
             }
       }
-    data = "?name="+name+"&message="+message
+    data = "?name="+name+"&message="+message+ "&src="+src
     xmlhttp.open("GET","/send_tick/"+data,true);
     xmlhttp.send();
-    
-        
     }
    //no connection
    else

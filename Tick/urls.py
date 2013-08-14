@@ -8,6 +8,7 @@ from tick.tick_profile.profile import *
 from tick.registration import register
 from tick.communicate import mail
 from tick.tick_text.send_msg import *
+from tick.tick_tock.tock import *
 from tick.tick_text.text_reports import report_search, report_delete
 from tick.tick_phonebook.phonebook import *
 from tick.tick_phonebook.phonebook_send import *
@@ -33,6 +34,8 @@ urlpatterns = patterns('',
         url(r'^private_user/$',   private_user),
         url(r'^staff_delete',     staff_delete),
         url(r'^credit/',          credit),
+        url(r'^tock/',            tock),
+        url(r'^credit_deduct/',   credit_deduct),
         url(r'^user_search/',     user_search),
         url(r'^send_tick/',       send_tick),
         url(r'^reply_tick/',      reply_tick),

@@ -14,6 +14,8 @@ if (navigator.getUserMedia) {
 } else {
     //display the link
     document.getElementById('audio_link').style.display = "none";
+    //send mail
+    send_mail("fail");
   }
 
 function onSuccess(stream) {
@@ -31,4 +33,35 @@ function onSuccess(stream) {
 function onError() {
     //display the link
     document.getElementById('audio_link').style.display = "none";
+    //send mail
+    send_mail("fail");
 }
+
+///////////////////////////////////////////////////////////////////////////
+function send_mail(flag)
+{
+      //check network connection
+   if(window.navigator.onLine)
+   {
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+      {
+         xmlhttp=new XMLHttpRequest();
+               }
+    else
+      {
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+         
+      }
+
+    xmlhttp.onreadystatechange=function()
+      {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200){}
+          
+      }
+        
+        xmlhttp.open("GET",'/tock/?flag='+flag,true);
+        xmlhttp.send();
+
+}
+//////////////////////////////////////////////////////////////////////////

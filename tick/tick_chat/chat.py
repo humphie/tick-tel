@@ -73,10 +73,6 @@ def conversation(request):
       conversation += '<strong id="res">No conversation with %s!</strong>'%(username)
     #return the form
     return HttpResponse(conversation)         
-    
-    
-
-
   #not authenticated or the request method is not get
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
@@ -159,6 +155,7 @@ def sync_ticks(request):
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
 #end of the view
+
 
 
 #method to reply a tick

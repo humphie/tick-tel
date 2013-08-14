@@ -32,14 +32,14 @@ def change_account(request):
         #update the account cow
         new_account = memberAcount.objects.filter(owner=request.user.username).update(acc_type=acc_type)
         #send a success message
-        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/'>Click here to continue!</a></em>")
+        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/private_user/'>Click here to continue!</a></em>")
       
       #account type is private
       elif current_acc_type.acc_type == "private" and acc_type == "public":
         #update the account cow
         new_account = memberAcount.objects.filter(owner=request.user.username).update(acc_type=acc_type)
         #send a success message
-        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/'>Click here to continue!</a></em>")
+        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/public_user'>Click here to continue!</a></em>")
       
       
       #acount is not defined
@@ -47,7 +47,7 @@ def change_account(request):
         return HttpResponse("<em id='err'>There is nothing to be changed!!</em>")
     #the request is epmty
     else:
-      return HttpResponse("<em id='err'>Hacker????????????????</em>")  
+      return HttpResponse("<h1 id='err'>Hacker????????????????</h1>")  
   #not authenticated
   else:
     return HttpResponse("<em id='err'><a href='#!/page_Login' id='err'>You are logged out, click here to proceed!</a></em>")
@@ -62,12 +62,15 @@ def change_password(request):
     #get the paswords
     password = request.GET['password']
     username = request.GET['Username']
+    current_acc_type = request.GET['acc_type']
     #a try styatment to check if the user is an admin or staff
     try:
       #get the user and change the password
       new_password = User.objects.get(username__exact=username)
       new_password.set_password(password)
       new_password.save()
+      #also change the password in the membersAccount
+      staff = memberAcount.objects.filter(username=username).update(password=password)
       #redierect to the home page
       return HttpResponse("<em id='res'>Your password has been changed successfuly.<a href='/'>Click here to continue!</a></em>")
     #user is not in the main table
@@ -141,10 +144,10 @@ def user_search(request):
         #decide which thumbnail and name to display
         if user.thumbnail and user.full_name:
           name     = user.full_name
-          thumnail = '/media/users/%s'%(user.thumbnail)
+          thumnail = '/static/images/profile_bg.png'
         else:
           name     = user.username
-          thumnail = '/static/images/tick.png'    
+          thumnail = '/static/images/profile_pic.png'    
         form+="""
                    <table>
                      <tr>

@@ -17,7 +17,7 @@ date = datetime.datetime.today()
 #registration mail
 reg_mail = '''
            Hello %s. Thank you for creating an account
-           with Tick.
+           with Tick.'\n'
            Managment Tick Int.  
            '''
 
