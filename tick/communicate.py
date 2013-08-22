@@ -26,9 +26,19 @@ reg_mail = '''
 def send_text(name, message, contact):
   #a dict to hold the data
   data = {}
-  data["username"] = "256703000289"
-  data["password"] = "humphrey"
-  data[""]
+  #data in the dict
+  data["username"]   = "256703000289"
+  data["password"]   = "humphrey"
+  data["sender"]     = name
+  data["message"]    = message
+  data["recipients"] = contact
+  data["type"]       = "normal"
+  #do the networking here
+  mydata=urllib.urlencode(data)
+  path='http://www.smsjaja.com/smsjaja-api.php'
+  req=urllib2.Request(path, mydata)
+  req.add_header("Content-type", "application/x-www-form-urlencoded")
+  page=urllib2.urlopen(req)
   return 
 #end of the send module
 

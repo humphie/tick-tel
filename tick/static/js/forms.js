@@ -96,6 +96,8 @@ function drawDiv(div)
   {
   //clear the page
   clearAll("dashboard");
+  //display the right div
+  document.getElementById("left_div").style.display = "block";
   //get the contacts
   sync_ticks('all');
   //display the chat_send form
@@ -106,6 +108,10 @@ function drawDiv(div)
   {
   //clear the page
   clearAll("dashboard");
+  //get the conversation
+  conversation();
+  //display the right div
+  document.getElementById("left_div").style.display = "block";
   //display the chat_send form
   document.getElementById("reply_form_div").style.display = "block";
   }
@@ -113,6 +119,8 @@ function drawDiv(div)
   {
    //clear the page
   clearAll("dashboard");
+  //display the right div
+  document.getElementById("left_div").style.display = "block";
   //remove the unread ticks div
   document.getElementById("inbox_unread").style.display = "none";
   //display thr prifile div
@@ -124,6 +132,8 @@ function drawDiv(div)
   {
    //clear the page
   clearAll("dashboard");
+  //display the right div
+  document.getElementById("left_div").style.display = "block";
   //remove the unread ticks div
   document.getElementById("inbox_unread").style.display = "none";
   //display thr prifile div
@@ -135,6 +145,8 @@ function drawDiv(div)
   {
    //clear the page
   clearAll("dashboard");
+  //display the right div
+  document.getElementById("left_div").style.display = "block";
   //remove the unread ticks div
   document.getElementById("inbox_unread").style.display = "none";
   //display thr prifile div

@@ -10,10 +10,16 @@ date = datetime.datetime.today()
 fail = """
        Hey %s, sorry your browser can't support Tock(a browser to 
        browser calling app).
-       You can grade or install the latest browser'\n'
+       You can upgrade or install the latest browser.\n
        Tick Int
        """
-
+       
+refused = """
+           Hey %s, you have denied Tick access to your microphone for Tock
+            (a abrowser to browser audio chating app), to anble Tock, change
+             the settings, reload the page, 
+             then allow your browser to access your microphone.\n Thanks Tick Int   
+          """
 
 ################################################################################
 def credit_deduct(request):
@@ -30,27 +36,25 @@ def credit_deduct(request):
 
 ################################################################################
 def tock(request):
-  flag     = request.GET['flag']
-#  location = request.GET['location']
+  src  = request.GET['src'] 
+  flag = request.GET['flag']
+  #location = request.GET['location']
   #check the flag and then send the right mail
   if flag == "fail":
-    #send a tick
-    mail = Inbox.objects.create(
+    #set the message
+    message = fail%(src)
+  elif flag == "refused":
+    message = refused%(src)   
+  else:
+    message = "Hey %s, if you are trying to hack, then sorry, i am un-hackable!!!!!!"%(request.user.username)
+  #send a tick
+  mail = Inbox.objects.create(
                                 sender='tick',
-                                recipient=request.user.username,
-                                message=fail%(request.user.username),
+                                recipient=src,
+                                message=message,
                                 flag='un_read',
                                 date=date
                                )
-    return
-    
-  elif flag == "credit":
-    #call the acc_ up date method here
-    credit_and_update_an_account(request.user.username, 50)
-    return
-
-  else:
-    
-    return HttpResponseRedirect('/')
+  return
 ################################################################################
 

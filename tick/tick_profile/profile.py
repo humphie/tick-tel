@@ -39,7 +39,7 @@ def change_account(request):
         #update the account cow
         new_account = memberAcount.objects.filter(owner=request.user.username).update(acc_type=acc_type)
         #send a success message
-        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/super_user'>Click here to continue!</a></em>")
+        return HttpResponse("<em id='res'>Your account has been changed successfuly.<a href='/super_user/'>Click here to continue!</a></em>")
       
       
       #acount is not defined
@@ -62,7 +62,6 @@ def change_password(request):
     #get the paswords
     password = request.GET['password']
     username = request.GET['Username']
-    current_acc_type = request.GET['acc_type']
     #a try styatment to check if the user is an admin or staff
     try:
       #get the user and change the password
@@ -141,13 +140,27 @@ def user_search(request):
     if users:
       #loop thru the ticks
       for user in users:
-        #decide which thumbnail and name to display
-        if user.thumbnail and user.full_name:
-          name     = user.full_name
+        #decide which thumbnail to display
+        if user.thumbnail:
           thumnail = '/static/images/profile_bg.png'
-        else:
-          name     = user.username
+        else:        
           thumnail = '/static/images/profile_pic.png'    
+        #get the name 
+        if user.full_name:
+          name     = '''
+                        Full Name:&nbsp;&nbsp;&nbsp;%s<br />
+                        Username:&nbsp;&nbsp;&nbsp;%s
+                     '''%(user.full_name, user.username)
+        else:
+          name     = 'Username:&nbsp;&nbsp;&nbsp;%s'%(user.username)
+        
+        #get the short desc
+        if user.short_desc:
+          short_desc = """
+                         About Me:&nbsp;&nbsp;&nbsp;%s<br />
+                       """%(user.short_desc)
+        else:
+          short_desc = ""
         form+="""
                    <table>
                      <tr>
@@ -156,13 +169,13 @@ def user_search(request):
                        </td>
      
                        <td id="info">
-                           Name:&nbsp;&nbsp;&nbsp;%s<br />
+                           %s<br />
                            Location:&nbsp;&nbsp;%s<br />
-                           About Us:&nbsp;&nbsp;%s<br /> 
+                           %s<br /> 
                        </td>
                      </tr>
                    </table>
-                 """%(thumnail, name, user.country, user.short_desc)
+                 """%(thumnail, name, user.country, short_desc)
         form+="<p style=background-color:#CCFFFF;></p>"  
       #return the form
       return HttpResponse(form)

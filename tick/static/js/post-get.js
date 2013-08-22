@@ -64,6 +64,8 @@ function loginValidate()
 //function to send mail
 function mailValidate()
 {
+ //get the src
+ var src     = document.reply_form.Username.value
  var subject = document.mailForm.subject.value
  var email   = document.mailForm.email.value
  var message = document.mailForm.message.value
@@ -100,7 +102,7 @@ function mailValidate()
                 
             }
       }
-    data = "?name=tick&message="+email+'\n'+subject+'\n'+message
+    data = "?name=tick&message="+email+'===='+subject+'===='+message +"&src="+src
     xmlhttp.open("GET", "/send_tick/"+data, true);
     xmlhttp.send();
    
@@ -212,9 +214,19 @@ function Subscribe(){
    }
    
 }
+////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////
+//function to count how many x-ters a user has typed so far
+function counter(div, id)
+{
+  var message = document.getElementById(id).value
+  document.getElementById("Response_Phonebook").innerHTML=message.length+" characters.";
+  //alert(message.length+" characters.");
+}
+////////////////////////////////////////////////////////////////////////////////
 
-
+////////////////////////////////////////////////////////////////////////////////
 function Reg_validator()
 {   
     var username  = document.getElementById('username').value

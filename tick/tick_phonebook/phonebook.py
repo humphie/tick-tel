@@ -24,19 +24,17 @@ def book_search(request):
     response['Content-Disposition'] = 'attachment; filename=numbers.csv'
     writer = csv.writer(response)
     writer.writerow([u'%s contact(s)'%(search_result.count()+staff_result.count()), u'in your phonebook'])
-    writer.writerow([u'_________________________________________', u'____<br />'])
+    writer.writerow([u'________________________________________________', u'<br />'])
     
     #check if the search result has values
-    if search_result:
+    if search_result or staff_result:
       #for loop to loop thru the phone numbers
       for result in search_result:
         writer.writerow([u'Name:', u'%s<br />'%(result.name)])
         writer.writerow([u'Contact:', u'%s<br />'%(result.contact)])
+        writer.writerow([u'Email:', u'%s<br />'%(result.email)])
         writer.writerow([u'Group:', u'%s<br /><br />'%(result.group)])
-    
-    #check the staff result set
-    if staff_result:
-      #loop thru
+      #loop thru the member account
       for result in staff_result:
         writer.writerow([u'Name:', u'%s<br />'%(result.username)])
         writer.writerow([u'Contact:', u'%s<br />'%(result.contact)])
@@ -46,7 +44,7 @@ def book_search(request):
       return response
 
     else:
-      writer.writerow([u'No contact in your', u'phonebok.'])        
+      writer.writerow([u'No contact in your', u'phonebook.'])        
       #return the response
       return response
     
@@ -64,13 +62,15 @@ def contact_edit(request):
     name    = request.GET['name']
     contact = request.GET['contact_number']
     group   = request.GET['group']
+    email   = request.GET['email']
+    current_name = request.GET['curr_name']
 
     #check the group
     if group != "staff":
       #function to delete the number
-      delete_a_contact(request.user.username, name)
+      delete_a_contact(request.user.username, current_name)
       #create anew contact
-      save_a_contact(request.user.username, name, group, contact)        
+      save_a_contact(request.user.username, name, group, contact, email)        
       #send response
       return HttpResponse('<em id="res">%s has been edited!</em>'%(name)) 
 
@@ -116,13 +116,14 @@ def save(request):
 
   if request.user.is_authenticated():
        
-    name     = request.GET['name']
-    contact  = request.GET['contact_number']
-    group    = request.GET['group']
+    name    = request.GET['name']
+    contact = request.GET['contact_number']
+    group   = request.GET['group']
+    email   = request.GET['email']
         
            
-    #code to save the contact
-    save_a_contact(request.user.username, name, group, contact)        
+    #call save the contact method
+    save_a_contact(request.user.username, name, group, contact, email)        
             
     #send response
     return HttpResponse('<em id="res">%s has been saved!</em>'%(name))

@@ -1,10 +1,35 @@
-				<h1><a href="#close" id="logo">Tick</a></h1>
-                  <span id="time"></span>  
-               <nav class="menu">
-					<ul id="menu">
-						<li><a href="#!/page_Home">Home</a></li>
-						<li><a href="#!/page_Sign-Up" >Sign Up</a></li> 
-                        <li><a href="#!/page_Login">Sign In</a></li>
-   					</ul>
-				</nav>
+
+{% if user.is_authenticated %}
+
+<h1><a href="#close" id="logo">Tick</a></h1>
+    <span id="greeting">
+      <a href="/logout/" onClick="return networkConnection()">Hi, {{user.username}}. Sign Out!</a>
+    </span>
+    <span id="time"></span>
+<nav class="menu">
+ <ul id="menu">
+  <li><a href="#!/page_Home">Home</a></li>
+  <li id="audio_link" style="display:none;" ><a href="#!/page_Tock">Tock</a></li>
+  <li><a href="#!/page_Text" >Text</a></li> 
+<!--  <li><a href="#!/page_Calendar" >Calendar</a></li>---->
+  <li><a href="#!/page_PhoneBook" onCLick="return getNumbers();">PhoneBook</a></li>
+  {% if super_user %}
+    <li><a href="#!/page_Members" onCLick="return syncMembers('');">Staff</a></li>
+  {% endif %}
+  </ul>
+ </li>
+</nav>
+{% else %}
+
+<h1><a href="#close" id="logo">Tick</a></h1>
+<span id="time"></span>  
+<nav class="menu">
+  <ul id="menu">
+	<li><a href="#!/page_Home">Home</a></li>
+	<li><a href="#!/page_Sign-Up" >Sign Up</a></li> 
+    <li><a href="#!/page_Login">Sign In</a></li>
+  </ul>
+</nav>
+
+{% endif %}
 

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from tick.models import Inbox
 from tick .db_manager import *
 from django.http import HttpResponseRedirect
@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 
 
 #date to day
-date = datetime.datetime.today()
+date = datetime.datetime.now()
 #tick search form
 tick_form = '''
          <form name="tick_search_form" id="tick_search_form">
@@ -19,7 +19,24 @@ tick_form = '''
          </form>
           '''
 
+conversation_fetcher= '''
+                       <script>
+                         idleTime = 0;
+                         $(document).ready(function () {
+                            var time_Interval = setInterval("timeIncrement()", 3000); // 3 seconds
+                            idleTime = 0;
+                        })
+                        
+                        function timeIncrement() {
+                        idleTime = idleTime + 1;
+                        if (idleTime > 1) { // 1 minutes
+                           //call the new conversation here
+                           conversation();
+                        }
+                       }   
 
+                       </script>
+                      '''
 
 #function to get the conversation
 def conversation(request):
@@ -27,42 +44,43 @@ def conversation(request):
   if request.user.is_authenticated() and request.method == "GET": 
     #ge the username
     src      = request.GET['src']
-    username = request.GET['username']
+    Id       = request.GET['username']
     #string form
+    print Id
     conversation=''
+    #get the sender of the tick
+    tick_sender = Inbox.objects.get( id=Id[:-1] )   
     #get the ticks
-    ticks_to_username = Inbox.objects.filter( sender=src, recipient__istartswith=username )
+    ticks_to_username = Inbox.objects.filter( sender=src, recipient=tick_sender.sender ).order_by("date")
     #get the ticks by the user
-    ticks_to_src = Inbox.objects.filter( sender__istartswith=username, recipient=src )
+    ticks_to_src = Inbox.objects.filter( sender=tick_sender.sender, recipient=src ).order_by("date")
     #join the ticks 2getha
     ticks = list(ticks_to_username)+list(ticks_to_src)
     #check if the are ticks
     if ticks:
       #form title
       conversation+='<form name="ticks" id="ticks">'
-      #add the tick search
-      conversation+=tick_form
-  
+      conversation+="<em id='res'>Me with %s</em>"%(tick_sender.sender)
       #loop thru the ticks
       for tick in ticks:
         #if the flag is un_read style the tick
         if tick.flag == 'un_read':
-          conversation+='<div style="background:url(/static/images/un_read.png)30% 30% no-repeat;">'
+          conversation+='<div style="background:url(/static/images/un_read.png)20% 20% no-repeat;">'
         else:
-          conversation+='<div style="background:url(/static/images/read.png)30% 30% no-repeat;">'
-        #the ckeck box
-        conversation+='<input type="checkbox" onchange="iaddon();" name="unread" value="%s">'%(tick.id)
+          conversation+='<div style="background:url(/static/images/read.png)20% 20% no-repeat;">'
         #check if the user is the sender or the recipient
         if src == tick.sender:
-          conversation+='Sent to:&nbsp;&nbsp;%s<br />'%(tick.recipient)
+          conversation+='Me<br />'
         #user is the recipient
         else:
-          conversation+='From:&nbsp;&nbsp;%s<br />'%(tick.sender)
+          conversation+='%s<br />'%(tick.sender)
         #message         
         conversation+='%s&nbsp;&nbsp;<br />'%(tick.message)
         #date
         conversation+='%s&nbsp;&nbsp;<br />'%(tick.date)
         conversation+='______________________________________________________________</div><br />'
+      #get the script to update
+      conversation+=conversation_fetcher
       #close the form
       conversation+='</form>'
       #return the form
@@ -89,23 +107,15 @@ def sync_ticks(request):
 
     #get the username
     username  = request.GET['src']
-    flag      = request.GET['flag']
     #check the flag
-    if flag == 'all':
+    if username != '':
       #get all unread ticks
-      tick1 = Inbox.objects.filter( recipient=username )
-      #get the ticks by the user
-      tick2 = Inbox.objects.filter( sender=username )
-      #joint he ticks 2getha
-      ticks = list(tick1)+list(tick2)
+      ticks = Inbox.objects.filter( recipient=username ).order_by("date")
+      #get the unread ticks
+      unread_ticks = Inbox.objects.filter( recipient=username, flag="un_read" )
+ 
       #the title to send
-      title = "<strong>You have %s ticks!</strong><br />"%(len(ticks))
-    #the flag is un_read
-    elif flag == 'un_read':
-      #get all unread ticks
-      ticks = Inbox.objects.filter(recipient=username, flag='un_read')
-      #the title
-      title = "<strong>You have %s Unread tick(s)!</strong><br />"%(len(ticks))
+      title = "<strong>You have %s Unread tick(s)!</strong><br />"%(len(unread_ticks))
     #none ot the above
     else:
       #get all unread ticks
@@ -129,7 +139,7 @@ def sync_ticks(request):
         else:
           un_read+='<div style="background:url(/static/images/read.png)30% 30% no-repeat;">'
         #the ckeck box
-        un_read+='<input type="checkbox" onchange="iaddon();" name="unread" value="%s">'%(tick.id)
+        un_read+='<input type="checkbox" onchange="tick_reply();" name="unread" value="%s">'%(tick.id)
         #check if the user is the sender or the recipient
         if username == tick.sender:
           un_read+='Sent to:&nbsp;&nbsp;%s<br />'%(tick.recipient)
@@ -173,7 +183,7 @@ def reply_tick(request):
     if Id != "" or Id == 0:
 
       #put a for loop incase they are multiple ids
-      for recip in Id[:-1].split(','):
+      for recip in Id[:-1]:
 
         #ge the inforabout the id    
         id_meta_data = Inbox.objects.get(id=recip)

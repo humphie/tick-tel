@@ -8,6 +8,8 @@ function iaddon() {
    addon+=',';
    }
   }
+  //set the name_id to this addon
+  document.getElementById("name_id").value = addon;
   return addon;
  }
 
@@ -22,18 +24,33 @@ function zaddon() {
   }
   return zddon;
  }
+
+function tick_reply() {
+ addon="";
+ av=document.getElementsByName("unread");
+ for (e=0;e<av.length;e++) {
+  if (av[e].checked==true) {
+   addon+=av[e].value;
+   
+   }
+  }
+  //draw the div
+  drawDiv('reply_send');
+  return addon;
+ }
  
 ////////////////////////////////////////////////////////////////////////////////////
 //function to get the conversation
 function conversation()
 {
+   var username = '';
    //get the src
-   var src      = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
    //get the user name 
-   var username = document.getElementById('tick_query').value
-  //if the query is no empty
-  if (username != "" )
-  {
+   username = iaddon();
+   //get the id here in cse the iaddon is empty
+   if ( username == "" ){ username = document.getElementById("name_id").value+','; }
+   if ( username == "," ) { return false; }
    //check the network connection
    if(window.navigator.onLine)
     {
@@ -52,12 +69,8 @@ function conversation()
       {
        if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
-          //remove the intro div
-          document.getElementById('all_ticks').style.display = 'none';
-          //remove the intro div
-          document.getElementById('inbox_unread').style.display = 'block';
           //append the response
-          document.getElementById("inbox_unread").innerHTML=xmlhttp.responseText;
+          document.getElementById("reply_ticks").innerHTML=xmlhttp.responseText;
         }
       }
 
@@ -72,19 +85,7 @@ function conversation()
      //return false
      return false;     
     }
-  }
-   //no more characters
-   else
-    {
-       //dispay the loading image
-      document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
-      //set timer
-      setTimeout(function(){
-              //append the result in the search div
-              document.getElementById('chat_res').innerHTML="<em id='res'>The search is complete!</em>";
-          }, 3000);
-       return false;
-    }
+  
 }
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -92,7 +93,7 @@ function conversation()
 function sync_ticks(flag)
 {
    //get the src
-   var src = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
    //check the network connection
    if(window.navigator.onLine)
     {
@@ -120,7 +121,7 @@ function sync_ticks(flag)
         }
       }
 
-    data = "?src="+src+'&flag='+flag 
+    data = "?src="+src
     xmlhttp.open("GET","/Sync_ticks/"+data,true);
     xmlhttp.send();
     
@@ -144,7 +145,7 @@ function send_chat(){
    var name    = document.form_tick.username.value
    var message = document.form_tick.tick_chat.value
    //get the src
-   var src      = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
    
    if (name != "" || message != "")
    {
@@ -210,11 +211,11 @@ function send_chat(){
 function reply_tick()
 {
     //get the selectes check boxes
-    var id = iaddon();
+    var id = document.getElementById("name_id").value;
    //get the message
    var message = document.reply_form.tick_reply.value
    //ge the src
-   var src = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
 
    if (message.length != 0 )
    {
@@ -244,6 +245,9 @@ function reply_tick()
                 document.getElementById("chat_res").innerHTML=xmlhttp.responseText;
                //sync the inbox_unread
                 sync_ticks('un_read');
+                //get the conversation
+                conversation();
+                
              }
       }
     data = "?id="+id+"&message="+message+"&src="+src
@@ -283,7 +287,7 @@ function chat_delete()
 {
    //get the id value to delete
    var Id  = '';
-   var src = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
    
    //check the flag of the message
    id1 = iaddon();
@@ -297,6 +301,9 @@ function chat_delete()
     {
     //dispay the loading image
     document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
+    //remove the div
+    document.getElementById("left_div").style.display = "none";
+
     var xmlhttp;
     if (window.XMLHttpRequest)
       {
@@ -314,8 +321,11 @@ function chat_delete()
             {
                 //append the response
                 document.getElementById("chat_res").innerHTML=xmlhttp.responseText;
-               //sync the inbox_unread
+                //clear the page
+                clearAll("dashboard");
+                //sync the inbox_unread
                 sync_ticks('all');
+                
             }
       }
     data = "?id="+Id+"&src="+src
@@ -355,7 +365,7 @@ function mark_read()
 
    //get the id value to delete
    var id  = iaddon();
-   var src = document.reply_form.Username.value
+   var src = document.getElementById("Username").value
 
    if (id != "")
    {
@@ -364,6 +374,8 @@ function mark_read()
     {
     //dispay the loading image
     document.getElementById('chat_res').innerHTML = '<img src="/static/images/Loader.gif" />';
+    //remove the div
+    document.getElementById("left_div").style.display = "none";
     var xmlhttp;
     if (window.XMLHttpRequest)
       {
@@ -381,6 +393,8 @@ function mark_read()
             {
                 //append the response
                 document.getElementById("chat_res").innerHTML=xmlhttp.responseText;
+                //clear the page
+                clearAll("dashboard");
                //sync the inbox_unread
                 sync_ticks('all');
             }

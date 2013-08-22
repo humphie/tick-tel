@@ -58,7 +58,9 @@ $(document).ready(function () {
     //Increment the idle time counter every minute.
     var idleInterval = setInterval("timerIncrement()", 9000); // 9 seconds
     
- 
+     //call the new conversation here
+     conversation();
+
     //Zero the idle timer on mouse movement.
     $(this).mousemove(function (e) {
         idleTime = 0;

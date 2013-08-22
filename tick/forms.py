@@ -44,7 +44,6 @@ class MemberForm(forms.Form):
 class SendForm(forms.Form):
     name     = forms.CharField(max_length=15, label='Your Name', widget=forms.TextInput(attrs={'class':'form-control'}))
     contacts = forms.CharField(label='Contacts(eg 2567xxxxxxxx, 2567xxxxxxx, ...)', widget=forms.TextInput(attrs={'class':'form-control'}))
-    message  = forms.CharField(max_length=150, label='Message to send', widget=forms.Textarea(attrs={'class':'form-control'}))
 
 #form for mail
 class MailForm(forms.Form):
@@ -73,10 +72,4 @@ class PhoneBookForm(forms.Form):
     message = forms.CharField(max_length=150, label='Message', widget=forms.Textarea(attrs={'class':'form-control'}))
     
 
-#form for phonebook
-class BookForm(forms.Form):
-    name    = forms.CharField(max_length=15, label='Name', widget=forms.TextInput(attrs={'class':'form-control'}))
-    contact = forms.CharField(label='Number(eg 2567xxxxxxxx)', widget=forms.TextInput(attrs={'class':'form-control'})) 
-    group   = forms.CharField(label='Group', max_length=12, widget=forms.TextInput(attrs={'class':'form-control'}))
 
-    

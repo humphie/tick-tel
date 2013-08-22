@@ -1,0 +1,194 @@
+{% if user.is_authenticated %}
+<li id="page_Home">
+   <div class="box">
+
+<ul id="profile_menu">
+{% if name %}
+   <li><a href="#!/page_Home" onclick="return home();">{{ name }}'s profile </a></li>
+{% else %}
+   <li><a href="#!/page_Home" onclick="return home();">{{ user.username }}'s profile </a></li>
+{% endif %}
+</ul><br /><br />
+  <!--------------Links to reply, send message, search for a user, delete a message--------------------->
+          <ul id="sub_menu">  
+             <li><a href="#!/page_Home" onClick="return sync_ticks('un_read');">Inbox</a></li>
+             <li><a href="#!/page_Home" onClick="return sync_ticks('all');">All Ticks</a></li>
+             <li><a href="#!/page_Home" onClick="return drawDiv('chat_send');">Tick</a></li>
+             <li><a href="#!/page_Home" onClick="return chat_delete();">Delete</a></li>
+             <li><a href="#!/page_Home" onClick="return mark_read();">Mark read</a></li>
+         </ul>
+
+<!----------------------------links above------------------------------------------------------>
+
+     <div class="wrapper">
+
+ 	<div class="col1">
+
+
+<!--------------unread inbox--------------------->
+  <div style="overflow:hidden;width:435px;background:#f2f2f2;">
+   <div id="inbox_unread" style="display:none;overflow:scroll;width:450px;height:330px;overflow-x:hidden"></div>
+  </div>
+<!-- --------------end of unread--------------------------->
+
+<!-- --------------all ticks--------------------------->
+   <div style="display:block;overflow:hidden;width:435px;background:#f2f2f2;">
+      <div id="all_ticks"style="display:block;overflow:scroll;width:450px;height:330px;overflow-x:hidden">
+<!--------------search for auser--------------------->
+ 
+ <form name="user_searchForm" id="user_searchForm">
+  {% csrf_token %}
+ <input class="form-control" id="user_query" type="text" name="user_query" maxlength="16" placeholder="search for a friend!" />
+ <img src="/static/admin/img/icon_searchbox.png"  onClick="return search_user('not_on_fly');"alt="Search" height="23px" width="23px" />
+</form><br />
+ 
+  <table>
+   <tr>
+     <td style="padding-left:10px;">
+        {% if members.thumbnail %}
+        <img class="img-circle" src="/static/images/profile_bg.png" >
+        {% else %}
+        <img class="img-circle" src="/static/images/profile_pic.png" >
+        {% endif %}
+     </td>
+     
+     <td id="info">
+        Name:&nbsp;&nbsp;&nbsp;{% if members.full_name %}
+                                   {{members.full_name}}<br />
+                               {% else %}
+                                   {{members.username}}<br />
+                               {% endif %}
+        Location:&nbsp;&nbsp;{{members.country}}<br />
+        {% if members.short_desc %}
+          About Me:&nbsp;&nbsp;{{members.short_desc}}<br /> 
+        {% endif %}
+     </td>
+   </tr>
+  </table>
+      
+  <br /><br />
+    <ul id="profile_menu">
+       <li><a href="#!/page_Home" onclick="return drawDiv('edit_profile');">Edit Profile </a></li>
+       <li><a href="#!/page_Home" onclick="return drawDiv('change_pword');">Edit Password</a></li>
+    {% if super_user or private_user %}
+       <li><a href="#!/page_Home" onclick="return drawDiv('change_acc');">Change Account</a></li>
+     {% endif %}
+    </ul>         
+
+      </div>          
+   </div>
+<!-- --------------end of all tick--------------------------->
+
+<div id="chat_res"></div>
+ 	
+ 	</div>
+
+   <div class="col2 pad_left1" id="left_div" style="display:none;">
+<input type="hidden" name="Username" id="Username" value="{% if name %}{{ name }}{% else %}{{ user.username }}{% endif %}" />
+   
+<!-- ----------------the chat form--------------------------->
+
+  <div id="tick_form_div" style="display:none;">
+    <form name="form_tick" id="form_tick">
+       Username to Tick<br />
+       <input id="username" class="form-control" type="text" name="username" maxlength="15" />     
+       
+       Tick to send<br />
+       <textarea class="form-control" id="tick_chat" rows="10" cols="25" name="tick_chat"></textarea>
+
+      <div class="btns">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    
+         <input type="button" class="button1" value="Tick" onClick="return send_chat();">
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        
+         <input type="reset" class="button1" value="Clear">
+      </div>                             
+    </form>
+  </div>  
+<!-- ----------------the chat form--------------------------->
+
+<!-- ----------------the  reply form--------------------------->
+  <div  id="reply_form_div" style="display:none;width:350px;overflow:hidden;background:#f2f2f2;">
+   <div id="reply_ticks" style="display:block;overflow:scroll;width:370px;height:250px;overflow-x:hidden"></div>
+   
+       <form name="reply_form" id="reply_form">
+       <input type="hidden" name="name_id" id="name_id" />
+       <textarea class="form-control" id="tick_reply" rows="5" cols="25" name="tick_reply" placeholder="type your reply here......."></textarea>
+      <div class="btns">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      
+         <input type="button" class="button1" value="Tick" onClick="return reply_tick();">
+      </div>                             
+    </form>
+
+  </div>  
+<!-- ----------------the reply form--------------------------->
+
+<!-- ----------------edit_acc_form_div--------------------------->
+<div  id="edit_acc_form_div" style="display:none;">
+    <form method="post" action="/profile_edit/"  onSubmit="return edit_acc();" enctype="multipart/form-data" name="edit_acc_form" id="edit_acc_form" >
+       {% csrf_token %}
+              Your full name<br />
+       <input class="form-control" type="text" name="edit_full_name" id="edit_full_name" />
+       Your Contact<br >
+       <input class="form-control" type="text" name="edit_contact" id="edit_contact" />
+       Asimple description about you<br />
+       <textarea class="form-control" id="edit_desc" rows="5" cols="25" name="edit_desc"></textarea>
+       Upload your logo/photo<br >
+       <input type="file" name="thumbnail" id="thumbnail" />
+
+      <div class="btns">
+          &nbsp;&nbsp;&nbsp;      
+         <input type="submit" class="button1" value="Tick">
+          &nbsp;&nbsp;&nbsp;      
+         <input type="reset" class="button1" value="Clear" >
+      </div>                             
+    </form>
+</div>  
+<!-- ----------------edit_acc_form_div--------------------------->
+
+<!-- ----------------change_pword_form_div--------------------------->
+<div  id="change_pword_form_div" style="display:none;">
+    <form name="change_pword_form" id="change_pword_form">
+       {% csrf_token %}
+              New Password<br />
+       <input class="form-control" type="password" name="change_password" id="change_password" />
+       New password(Again)<br >
+       <input class="form-control" type="password" name="change_password1" id="change_password1" /><br />
+      <div class="btns">
+          &nbsp;      
+         <input type="button" class="button1" value="Change Password"  onClick="return pword_change();" >
+      </div>                             
+    </form>
+</div>  
+<!-- ----------------change_pword_form_div--------------------------->
+
+<!-- ----------------change_acc_form_div--------------------------->
+<div  id="change_acc_form_div" style="display:none;">
+  {% if super_user or private_user %}
+
+    <form name="change_acc_form" id="change_acc_form">
+      {% csrf_token %}
+      {% if members.acc_type == "public" %}
+         <img src="/static/images/privateAcc.png" width="100px" height="100px">     
+         <input type="button" class="button1" value="Private" onClick="return acc_change('private');"><br />
+         <p style="color:black;font-size:15px; width:230px;">
+           <strong>NOTE:</strong>&nbsp;&nbsp;All the information about your staff will be lost parmanently!!
+         </p>
+      {% elif members.acc_type == "private" %}
+         <img src="/static/images/publicAcc.png" width="100px" height="100px">      
+         <input type="button" class="button1" value="Organization" onClick="return acc_change('public');">
+      {% endif %}
+    </form>
+
+  {% endif %}  
+</div>  
+<!-- ----------------change_acc_form_div--------------------------->
+   
+   </div>
+<!-- --------------end of col2 pad_left1--------------------------->
+  </div>
+ </div>
+</li>
+
+
+{% endif %}
+

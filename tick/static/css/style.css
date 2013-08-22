@@ -54,7 +54,7 @@ h6 a:hover, h6 a:active { background-color:#D8D8D8;
 p {padding-bottom:25px}
 /* ============================= header ====================== */
 header {height:65px;background:#fff;position:relative;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;box-shadow:0 0 5px rgba(0, 0, 0, .5);-moz-box-shadow:0 0 5px rgba(0, 0, 0, .5);-webkit-box-shadow:0 0 5px rgba(0, 0, 0, .5);padding:18px 40px;margin:5px}
-#logo {display:block;text-indent:-1000px;background:url(../images/tick.png) 0 0 no-repeat;width:200px;min-height:80px}
+#logo {display:block;text-indent:-1000px;background:url(../images/tick.png) 0 0 no-repeat;width:170px;min-height:80px}
 .menu {float:absolute;padding:18px 0 0 0}
 #menu, #profile_menu > li > a  {}
 #menu > li, #profile_menu > li > a  {position:relative;margin-left:23px;float:left}
@@ -76,20 +76,42 @@ header {height:65px;background:#fff;position:relative;border-radius:4px;-moz-bor
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
 }  
 
-.submenu_1 {position:absolute;bottom:63px;left:-25px;min-width:140px}
-.submenu_1 ul {background:#fff;position:relative;padding:10px;min-width:140px;border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px}  
-.submenu_1 li {font-size:14px; line-height:28px;position:relative}
-.submenu_1 a {color:#4d4d4d;display:block}
-.submenu_1 a:hover, .submenu_1 .sfHover > a {color:#81b003}
-.submenu_2 {position:absolute;bottom:-10px;left:131px;min-width:170px}
+#sub_menu > li > a{
+   font-size:17px;
+   color:#4d4d4d;
+   font-weight:bold;
+   line-height:1.2em;
+   overflow:hidden;
+   letter-spacing:-1px;
+   position:relative;
+   margin-left:23px;
+   float:left;
+}
+
+#sub_menu > li > a:hover {
+
+     color:black;
+     padding:2px;
+     background-color:#D8D8D8;
+     -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+     border-radius: 4px;
+     border: solid 1px #20538D;
+     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+     -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 1px 1px rgba(0, 0, 0, 0.2);
+}  
+
+
 #greeting a { color:#6ab2b1;float:center}
 #greeting a:hover { color:black;font-size:15px;}
 #auth_links { color:black;float:right; }
 #auth_links:hover { font-weight:bold;font-size:13px;text-decoration:underline;background-color:#D8D8D8; }
 /* ============================= content ====================== */
-#res{color:#6ab2b1}
-#err{color:red}
-#err.a{color:red}
+#res{font-weight:bold; color:#6ab2b1}
+#err{color:red;font-weight:bold;}
+#err.a{color:red;font-weight:bold;}
 #content {padding-bottom:10px}
 #content > ul {position:relative;height:100%}
 #content > ul > li {position:relative;bottom:0;margin:5px}
@@ -108,8 +130,10 @@ table {padding-top:3px}
 table {background:#f2f2f2;border-collapse:collapse;border:0}
 /* ============================= columns ====================== */
 .col1, .col2, .col3 {float:left}
-.col1 {min-width:400px; position:center}
-#Phonebook_links > a:hover, .col1 > a:hover, #links a:hover, #links_2 a:hover { color:black;text-decoration:underline;font-size:17px;font-weight:bold; }
+.col1 {min-width:410px; position:center}
+.col2{ min-width:350px; }
+#Phonebook_links > a:hover, .col1 > a:hover, #links a:hover, #links_2 a:hover { color:black;text-
+decoration:underline;font-size:17px;font-weight:bold; }
 #Phonebook_links > a:active, .col1 > a:active, #links a:active, #links_2 a:active { color:black;text-decoration:underline;font-size:17px;font-weight:bold; }
 /*====================== price_slider ===============================*/
 #chosen {
@@ -156,6 +180,7 @@ margin-left:40px;
 #plan1 li { text-align:left;}
 #plan3 li { text-align:left; }
 #plan3 a li strong:hover, #plan1 a:hover { color:black }
+
 
 
 
@@ -247,7 +272,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 textarea.form-control {
-  min-height: 140px;
+  min-height: 70px;
 }
 
 

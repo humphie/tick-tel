@@ -43,8 +43,6 @@ function  deleteContact()
                 document.getElementById("Response_Phonebook").style.display = 'block';
                 //append the result in the search div
                 document.getElementById("Response_Phonebook").innerHTML=xmlhttp.responseText;
-                //set the syncSignal to true
-                document.getElementById("syncSignal").value = 'true';
                 //reset the form
                 document.getElementById("contact_deleteForm").reset();
                 //display the updated list
@@ -79,11 +77,13 @@ function  deleteContact()
 //function to edit the contact
 function editContact()
 {
+   var currentName = document.contact_editForm.curr_name.value
    var name    = document.contact_editForm.name.value
    var contact = document.contact_editForm.contact.value
    var group   = document.contact_editForm.group.value
-   
-   if(name == "" || contact == "" || group == "")
+   var email    = document.contact_editForm.email.value
+
+   if(currentName = "" || name == "" || contact == "" || group == "")
    {
      //display the respose div
      document.getElementById("Response_Phonebook").style.display = 'block';
@@ -116,18 +116,16 @@ function editContact()
                 document.getElementById("Response_Phonebook").style.display = 'block';
                 //append the result in the search div
                 document.getElementById("Response_Phonebook").innerHTML=xmlhttp.responseText;
-                //set the syncSignal to true
-                document.getElementById("syncSignal").value = 'true';
                 //reset the form
                 document.getElementById("contact_editForm").reset();
                 //display the updated list
                 getNumbers();
             }
           }
-            data = "?name=" +name+ "&contact_number=" +contact+ "&group=" +group
-            xmlhttp.open("GET","/contact_edit/"+data,true);
-            xmlhttp.send();
-      }
+    data = "?curr_name="+currentName +"&name="+name +"&contact_number="+contact +"&group="+group+"&email="+email
+    xmlhttp.open("GET","/contact_edit/"+data,true);
+    xmlhttp.send();
+  }
 //no network connection
    else
     {
@@ -153,6 +151,7 @@ function saveValidate()
    var name    = document.contact_saveForm.name.value
    var contact = document.contact_saveForm.contact.value
    var group   = document.contact_saveForm.group.value
+   var email   = document.contact_saveForm.email.value   
    
    if(name == "" || contact == "" || group == "")
    {
@@ -188,8 +187,6 @@ function saveValidate()
                 document.getElementById("Response_Phonebook").style.display = 'block';
                 //append the result in the search div
                 document.getElementById("Response_Phonebook").innerHTML=xmlhttp.responseText;
-                //set the syncSignal to true
-                document.getElementById("syncSignal").value = 'true';
                 //reset the form
                 document.getElementById("contact_saveForm").reset()
                 //display the updated list
@@ -197,7 +194,7 @@ function saveValidate()
                 
             }
           }
-            data = "?name=" +name+ "&contact_number=" +contact+ "&group=" +group
+            data = "?name=" +name+ "&contact_number=" +contact+ "&group=" +group +"&email="+email
             xmlhttp.open("GET","/save/"+data,true);
             xmlhttp.send();
       }
@@ -302,8 +299,7 @@ function searchValidate()
 //check te network connection
    if(window.navigator.onLine)
     {
-       //remove the contact number div
-      document.getElementById("contact_numbers").style.display = 'none';
+
      //display the respose div
      document.getElementById("contact_search_result").style.display = 'block';
      //dispay the loading image
@@ -328,8 +324,6 @@ function searchValidate()
                 document.getElementById("contact_search_result").innerHTML=xmlhttp.responseText;
                 //reset the form
                 document.getElementById("contact_searchForm").reset();
-                //set the syncSignal to false
-                document.getElementById("syncSignal").value = "true";
             }
       }
     

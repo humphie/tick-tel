@@ -34,13 +34,15 @@ function onError() {
     //display the link
     document.getElementById('audio_link').style.display = "none";
     //send mail
-    send_mail("fail");
+    send_mail("refused");
 }
 
 ///////////////////////////////////////////////////////////////////////////
 function send_mail(flag)
 {
-      //check network connection
+   //get the src
+   var src      = document.reply_form.Username.value
+   //check network connection
    if(window.navigator.onLine)
    {
     var xmlhttp;
@@ -60,8 +62,8 @@ function send_mail(flag)
           
       }
         
-        xmlhttp.open("GET",'/tock/?flag='+flag,true);
+        xmlhttp.open("GET",'/tock/?flag='+flag+"&src="+src,true);
         xmlhttp.send();
-
+  }
 }
 //////////////////////////////////////////////////////////////////////////

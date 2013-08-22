@@ -6,7 +6,13 @@ var emptyFields = "<em id='err'>All fields must be filled in!</em>";
 //toggle the disply
  function home()
  {
-  clearAll('dashboard');
+  var display = '';
+  //check the chat display style
+  if ( document.getElementById("reply_form_div").style.display == "block" )
+  {
+     clearAll('dashboard');
+     document.getElementById("reply_form_div").style.display = "block";
+  }
   document.getElementById('inbox_unread').style.display = 'none';
   document.getElementById('all_ticks').style.display = 'block';
  }
@@ -19,14 +25,14 @@ var emptyFields = "<em id='err'>All fields must be filled in!</em>";
 function search_user(div)
 {
   if (div == ""){
-  //get the user name
-  var username = document.user_search_form.user_query_on_fly.value
+    //get the user name
+    var username = document.user_search_form.user_query_on_fly.value
   
   }
   else if (div == 'not_on_fly')
   {
-  //get the user name
-  var username = document.user_searchForm.user_query.value
+    //get the user name
+    var username = document.user_searchForm.user_query.value
   
   }
   

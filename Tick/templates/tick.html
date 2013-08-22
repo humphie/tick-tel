@@ -30,106 +30,73 @@
 		<div class="main">
 			<!--header -->
 			<header>
-			{% if user.is_authenticated %}
-	           
-	            {% if private_user %}
-
-           			 {% include 'tick_private/private_links.html' %}
-	            
-	            {% else %}
-
-          			 {% include 'tick_org/org_links.html' %}
-	            
-	            {% endif %}
-	
-			{% else %}
-
      			 {% include 'links.html' %}
-
-			{% endif %}
 			</header>
 			<!--header end-->
 			<!--content -->
 			<article id="content"><div class="ic"></div>
 				<ul>
 <!------------------------------if the user is authenticated------------------------------->
-        {% if user.is_authenticated %}
+     {% if user.is_authenticated %}
 <!------------------------------if the user is authenticated------------------------------->
-            <!-----------------Register/home page -------------------------->
-                {% include 'audio.html' %}
-           <!------------------Home/register page end -------------------------->
 
-<!------------------------------if the user is private------------------------------->
-           {% if private_user %}
-<!------------------------------if the user is private------------------------------->
-
-   <!------------------------------calendar page--------------------------------->
-               {% include 'tick_private/private_calendar.html' %}
-   <!------------------------------calender page end--------------------------------->
-
-   <!------------------------------PHONEBOOK PAGE--------------------------------->
-               {% include 'tick_private/private_phonebook.html' %}
-   <!------------------PHONEBOOK PAGE END-------------------------->
-
-   <!------------------Text page -------------------------->
-               {% include 'tick_private/private_text.html' %}
-   <!------------------Text page end -------------------------->
+<!------------------------------tock page-------------------------------------->
+             {% include 'apps/profile.html' %}
+<!------------------------------tock page-------------------------------------->
 
 
-<!------------------------------if the user is organization------------------------------->
-           {% else %}
-<!------------------------------if the user is organization------------------------------->
+<!------------------------------tock page-------------------------------------->
+             {% include 'apps/tock.html' %}
+<!------------------------------tock page-------------------------------------->
 
+<!------------------------------text page-------------------------------------->
+             {% include 'apps/text.html' %}
+<!------------------------------text page-------------------------------------->
 
-    <!------------------------------calendar page--------------------------------->
-               {% include 'tick_org/org_calendar.html' %}
-    <!------------------------------calender page end--------------------------------->
+<!------------------------------staff_members page----------------------------->
+             {% include 'apps/credit.html' %}
+<!------------------------------staff_members page----------------------------->
 
-    <!------------------------------PHONEBOOK PAGE--------------------------------->
-               {% include 'tick_org/org_phonebook.html' %}
-    <!------------------PHONEBOOK PAGE END-------------------------->
+<!------------------------------calendar page---------------------------------->
+             {% include 'apps/calendar.html' %}
+<!------------------------------calendar page---------------------------------->
+        
 
-    <!------------------Text page -------------------------->
-               {% include 'tick_org/org_text.html' %}
-    <!------------------Text page end -------------------------->
+<!------------------------------phonebook page--------------------------------->
+             {% include 'apps/phonebook.html' %}
+<!------------------------------phonebook page--------------------------------->
 
-    <!------------------staff result page -------------------------->
-               {% include 'tick_org/org_members.html' %} 
-    <!-----------------staff result page end-------------------------->
+         {% if super_user %}
+<!------------------------------staff_members page----------------------------->
+             {% include 'apps/members.html' %}
+<!------------------------------staff_members page----------------------------->
+          {% endif %}
 
-    <!------------------credit page -------------------------->
-               {% include 'tick_org/org_credit.html' %}  
-    <!------------------credit page end -------------------------->
+<!------------------------------if the user is not authenticated----------------------------->
+     {% else %}
 
-
-<!------------------------------if the user is organization------------------------------->
-           {% endif %}
-<!------------------------------end of the if private/super/staff user ------------------------------->
-
-<!------------------------------if the user is not authenticated------------------------------->
-        {% endif %}
-<!------------------------------if the user is not authenticated------------------------------->
-
-
-            <!-----------------Register/home page -------------------------->
+            <!-----------------Register/home page ----------------------------->
                 {% include 'home_page/home_page.html' %}
-           <!------------------Home/register page end -------------------------->
+           <!------------------Home/register page end ------------------------->
+        
+     {% endif %}
+<!------------------------------if the user is not authenticated------------------------------>
 
 
-          <!-----------------Register/home page -------------------------->
+          <!-----------------Register/home page ------------------------------->
                 {% include 'sign_up.html' %}
           <!------------------Home/register page end -------------------------->
-          <!------------------member login page -------------------------->
+          <!------------------member login page ------------------------------->
                 {% include 'loggin.html' %}
-          <!------------------private login page end-------------------------->
+          <!------------------private login page end--------------------------->
 
-          <!------------------contact page -------------------------->
+          <!------------------contact page ------------------------------------>
                 {% include 'contacts_page.html' %}
-          <!------------------contact page end ----------------------->
+          <!------------------contact page end -------------------------------->
 
-          <!------------------------------services page--------------------------------->
+          <!------------------------------services page------------------------>
                {% include 'home_page/services.html' %}
-           <!------------------------------services Us page end--------------------------------->
+          <!------------------------------services Us page end----------------->
 
 
 
@@ -153,11 +120,7 @@ $(window).load(function() {
 </script>
 {% if user.is_authenticated %}
   {% if user.username == "tick" %}
-    {% if name %}
-    {% else %}
          <script src="/static/js/audio.js"></script>  
-    {% endif %} 
-  {% else %}
   {% endif %}
 {% endif %}
 <!--coded by humphie-->

@@ -123,11 +123,16 @@ def delete_an_event(owner, event_title):
   delete_the_event = Event.objects.filter(owner=owner, event_title=event_title).delete()
   
   
-def save_a_contact(username, name, group, contact):
-  new_contact = Phone.objects.create(username=username, name=name, group=group, contact=contact)
+def save_a_contact(username, name, group, contact, email):
+  new_contact = Phone.objects.create(username=username, 
+                                     name=name,
+                                     group=group, 
+                                     contact=contact,
+                                     email=email)
 
 
 def delete_a_contact(username, name):
+  print username, name
   contact = Phone.objects.filter(username=username, name=name).delete()
 
 

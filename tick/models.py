@@ -22,14 +22,22 @@ class Credit(models.Model):
     def __unicode__(self):
         return self.name
 
+#model class for hackers
+class Hacker(models.Model):
+  username = models.CharField(max_length=15)
+  chance   = models.IntegerField()
+  def __unicode__(self):
+    return username
+
 
 #model class for phonebook 
 class Phone(models.Model):
 
-    username   = models.CharField(max_length=12)     
-    name       = models.CharField(max_length=12)
-    group      = models.CharField(max_length=12)
-    contact    = models.CharField(max_length=15)
+    username = models.CharField(max_length=12)     
+    name     = models.CharField(max_length=12)
+    group    = models.CharField(max_length=12)
+    contact  = models.CharField(max_length=15)
+    email    = models.EmailField(max_length=75)  
     #return the username
     def __unicode__(self):
         return self.username
@@ -41,10 +49,12 @@ class Inbox(models.Model):
     recipient = models.CharField(max_length=12)
     message   = models.CharField(max_length=300)
     flag      = models.CharField(max_length=12)
-    date      = models.DateField()
+    date      = models.DateTimeField()
     #return the username
     def __unicode__(self):
         return self.sender
+    class Meta:
+        ordering = ['date']
 
 
 class memberAcount(models.Model):
@@ -71,7 +81,7 @@ class Report(models.Model):
     name      = models.CharField(max_length=15)
     message   = models.CharField(max_length=300)
     recip_num = models.CharField(max_length=500)
-    date      = models.DateField()
+    date      = models.DateTimeField()
 
 
 #model for Calender

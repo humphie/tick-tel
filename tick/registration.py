@@ -1,5 +1,6 @@
 from tick.db_manager import *
 from tick.communicate import *
+from tick_regulator.regulator import *
 from django.shortcuts import HttpResponse
 
 mail = '''
@@ -42,5 +43,5 @@ def register(request):
     return HttpResponse('<em id="res">Account has been successfuly created!<a href="#!/page_Login"> Click here to login</a></em>')
     
   else:
-
+     
      return HttpResponse("Invalid request")  

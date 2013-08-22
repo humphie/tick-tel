@@ -120,7 +120,7 @@ def login(request):
               #authenticate the user
               auth.login(request, user) 
               #send the user to the staff home
-              return HttpResponseRedirect('/user_staff/?org_acc/id-name=%s'%(username))
+              return HttpResponseRedirect('/user_staff/?org_acc/id-name=%s&username=%s'%(organization.owner, username))
             #the authentiction has failed
             else:
               return HttpResponseRedirect('/') 
@@ -160,7 +160,6 @@ def super_user(request):
     numbers      = Phone.objects.filter(username=request.user.username)
     send         = SendForm()
     phoneBook    = PhoneBookForm()
-    saveNum      = BookForm()
     deleteNum    = DeleteForm()
     searchNum    = TextSearchForm()
     mail         = MailForm()
@@ -178,11 +177,11 @@ def super_user(request):
                                             'members':members,
                                             'mail':mail,
                                             'send':send,
+                                            'calendar':calendar,
                                             'all_ticks':all_ticks,
                                             'phoneBook':phoneBook,
                                             'deleteNum':deleteNum,
                                             'numbers':numbers,
-                                            'saveNum':saveNum,
                                             'searchNum':searchNum,
                                             'credit':credit,
                                             'creditForm':creditForm,
@@ -204,10 +203,12 @@ def staff_user(request):
     
   if request.user.is_authenticated():
     #get the name
-    name = request.GET['org_acc/id-name']
+    name     = request.GET['org_acc/id-name']
+    username = request.GET['username']
     if name != '':
       #get the organisation numbers
-      members    = memberAcount.objects.get(username=request.user.username)
+      members    = memberAcount.objects.get(username=username)
+      print members
       #check for the remaining smsz
       credit     = Credit.objects.get(name=request.user.username)
       #get the unread inbox
@@ -225,7 +226,7 @@ def staff_user(request):
       variables  = RequestContext(request, {
                                             'un_read':un_read,
                                             'all_ticks':all_ticks,
-                                            'name':name,
+                                            'name':username,
                                             'mail':mail,
                                             'send':send,
                                             'phoneBook':phoneBook,
@@ -262,10 +263,10 @@ def private_user(request):
     numbers   = Phone.objects.filter(username=request.user.username)
     send      = SendForm()
     phoneBook = PhoneBookForm()
-    saveNum   = BookForm()
     deleteNum = DeleteForm()
     searchNum = TextSearchForm()
     mail      = MailForm()
+    creditForm   = CreditForm()
     calendar  = calendarForm()
     login     = LoginForm()
     deleteEve = deleteEvent()
@@ -274,10 +275,10 @@ def private_user(request):
                                             'send':send,
                                             'phoneBook':phoneBook,
                                             'members':members,
+                                            'creditForm':creditForm,
                                             'deleteNum':deleteNum,
                                             'all_ticks':all_ticks,
                                             'numbers':numbers,
-                                            'saveNum':saveNum,
                                             'credit':credit,
                                             'un_read':un_read,
                                             'private_user':'private_user',

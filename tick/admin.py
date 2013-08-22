@@ -6,6 +6,7 @@ from tick.models import *
 #class for Creditz
 class CreditAdmin(admin.ModelAdmin):
     list_display = ('name', 'credit')
+    
 
 class PhoneAdmin(admin.ModelAdmin):
     list_display = ('username', 'contact')
@@ -13,16 +14,23 @@ class PhoneAdmin(admin.ModelAdmin):
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('owner', 'description')
+    
 
 class memberAcountAdmin(admin.ModelAdmin):
     list_display = ('owner', 'username', 'position')
+    
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display =('username', 'message')
+    list_display = ('username', 'message')
+    
 
 class InboxAdmin(admin.ModelAdmin):
-    list_display =('sender', 'recipient', 'message')
+    list_display = ('sender', 'recipient', 'message')
+    
 
+class HarckerAdmin(admin.ModelAdmin):
+    list_display = ('username', 'chance')
+    
 
 admin.site.register(Credit, CreditAdmin)
 admin.site.register(Phone, PhoneAdmin)
@@ -30,4 +38,5 @@ admin.site.register(Event, EventAdmin)
 admin.site.register(memberAcount, memberAcountAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Inbox, InboxAdmin)
+admin.site.register(Hacker, HarckerAdmin)
 

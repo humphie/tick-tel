@@ -12,7 +12,6 @@ def phonebook(request):
     msg_sent = 1
     group   = request.GET['group']
     message = request.GET['message']
-    print group
     #check the group
     if group == "staff":
       #get the numbers in the phonebook
@@ -25,7 +24,6 @@ def phonebook(request):
       contacts2 = list(Phone.objects.filter(username=request.user.username, group=group))
       #join the two listas 2getha
       phonebook_numbers = contacts1 + contacts2
-      print phonebook_numbers
       
     #else a given group
     else:
@@ -39,9 +37,9 @@ def phonebook(request):
           
         #call the communicate.send_text method inside the loop
         for contact in phonebook_numbers:
-          #send the msg
-          print contact.contact
-#          send_text(request.user.username, message, contact.contact)
+
+          send_text(request.user.username, message, contact.contact)
+
           #increament by 1
           msg_sent+=1
           #  if the number if messages sent > credit
