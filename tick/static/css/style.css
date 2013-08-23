@@ -275,9 +275,6 @@ textarea.form-control {
   min-height: 70px;
 }
 
-
-
-
 /*this is only for webkit, not opera*/
 input[type='range'] {  
 -webkit-appearance: none;

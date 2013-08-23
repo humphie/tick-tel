@@ -25,7 +25,7 @@ function member_chat(){
    //check if the fields are empty
    var name = naddon();
    //get the src
-   var src      = document.reply_form.Username.value
+   var src      = document.getElementById("Username").value
    //get the message
    var message = document.staff_form.staff_text.value
    

@@ -31,6 +31,9 @@ function acc_change(acc_type)
                 document.getElementById('change_acc_form').reset();
                 //remove the all ticks
                 document.getElementById('all_ticks').style.display = 'block';
+                //remove the right div
+                document.getElementById('left_div').style.display = 'none';
+                
                 //return the connect method
                 document.getElementById('chat_res').innerHTML=xmlhttp.responseText;
             }
@@ -135,6 +138,8 @@ function pword_change()
                 document.getElementById('change_pword_form').reset();
                 //remove the all ticks
                 document.getElementById('all_ticks').style.display = 'block';
+                //remove the right div
+                document.getElementById('left_div').style.display = 'none';
                 //return the connect method
                 document.getElementById('chat_res').innerHTML=xmlhttp.responseText;
             }

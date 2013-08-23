@@ -49,13 +49,13 @@ def conversation(request):
     print Id
     conversation=''
     #get the sender of the tick
-    tick_sender = Inbox.objects.get( id=Id[:-1] )   
+    tick_sender = Inbox.objects.get( id=Id )   
     #get the ticks
     ticks_to_username = Inbox.objects.filter( sender=src, recipient=tick_sender.sender ).order_by("date")
     #get the ticks by the user
     ticks_to_src = Inbox.objects.filter( sender=tick_sender.sender, recipient=src ).order_by("date")
     #join the ticks 2getha
-    ticks = list(ticks_to_username)+list(ticks_to_src)
+    ticks = list(ticks_to_src)+list(ticks_to_username)
     #check if the are ticks
     if ticks:
       #form title
@@ -110,7 +110,7 @@ def sync_ticks(request):
     #check the flag
     if username != '':
       #get all unread ticks
-      ticks = Inbox.objects.filter( recipient=username ).order_by("date")
+      ticks = Inbox.objects.filter( recipient=username ).order_by("-date")
       #get the unread ticks
       unread_ticks = Inbox.objects.filter( recipient=username, flag="un_read" )
  
@@ -183,7 +183,7 @@ def reply_tick(request):
     if Id != "" or Id == 0:
 
       #put a for loop incase they are multiple ids
-      for recip in Id[:-1]:
+      for recip in Id:
 
         #ge the inforabout the id    
         id_meta_data = Inbox.objects.get(id=recip)

@@ -1,3 +1,4 @@
+
 ///////////////////////////get the selected tick//////////////////////////////////////
 function iaddon() {
  addon="";
@@ -8,8 +9,6 @@ function iaddon() {
    addon+=',';
    }
   }
-  //set the name_id to this addon
-  document.getElementById("name_id").value = addon;
   return addon;
  }
 
@@ -34,8 +33,13 @@ function tick_reply() {
    
    }
   }
+  document.getElementById('reply_ticks').innerHTML = '<img src="/static/images/Loader.gif" />';
   //draw the div
   drawDiv('reply_send');
+  //set the name_id to this addon
+  document.getElementById("name_id").value = addon;
+  //call the conversation function every 3 seconds
+  window.setInterval("conversation();",3000);
   return addon;
  }
  
@@ -43,14 +47,13 @@ function tick_reply() {
 //function to get the conversation
 function conversation()
 {
-   var username = '';
    //get the src
    var src = document.getElementById("Username").value
-   //get the user name 
-   username = iaddon();
    //get the id here in cse the iaddon is empty
-   if ( username == "" ){ username = document.getElementById("name_id").value+','; }
-   if ( username == "," ) { return false; }
+   var username = document.getElementById("name_id").value
+
+   if ( username == "" ){ username = document.getElementById("name_id").value; }
+   if ( username == "" ){ return false; }
    //check the network connection
    if(window.navigator.onLine)
     {
@@ -216,7 +219,6 @@ function reply_tick()
    var message = document.reply_form.tick_reply.value
    //ge the src
    var src = document.getElementById("Username").value
-
    if (message.length != 0 )
    {
    //check the network connection
